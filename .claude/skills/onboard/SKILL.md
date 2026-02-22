@@ -8,19 +8,35 @@ allowed-tools: Read, Write, Glob, Bash, AskUserQuestion
 
 On first interaction (or when `data/` files don't exist), collect the following in order:
 
-1. **Primary currency** (e.g., SGD, USD, EUR)
-2. **Current mode** — wealth building or runway
-3. **Add-on selection** — toggle optional features (see below)
-4. **Accounts** — list of savings accounts, investment accounts, and cash holdings with balances
-5. **Monthly income** (if wealth building mode) — salary, freelance, side income
-6. **Monthly expenses** — rent, food, transport, discretionary, etc.
-7. **Recurring liabilities** — subscriptions, insurance, loan repayments
-8. **Goals** — financial goals with target amounts and dates
-9. **Add-on details** — additional data based on enabled add-ons
+1. **Overview** — introduce yourself and explain what you can do (see below)
+2. **Primary currency** (e.g., SGD, USD, EUR)
+3. **Current mode** — wealth building or runway
+4. **Add-on selection** — toggle optional features (see below)
+5. **Accounts** — list of savings accounts, investment accounts, and cash holdings with balances
+6. **Monthly income** (if wealth building mode) — salary, freelance, side income
+7. **Monthly expenses** — rent, food, transport, discretionary, etc.
+8. **Recurring liabilities** — subscriptions, insurance, loan repayments
+9. **Goals** — financial goals with target amounts and dates
+10. **Add-on details** — additional data based on enabled add-ons
+
+## Overview (first thing shown)
+
+Before collecting any data, **introduce yourself using first person**. The user needs to know what they're setting up before answering questions. Use a personal, conversational tone — speak as "I", not "the tool" or "the assistant". Cover:
+
+- What you do: "I'm a personal finance assistant that runs in your terminal. All your data stays local as JSON files — nothing leaves your machine."
+- **Core features everyone gets** (brief bullets):
+  - Net worth tracking across all accounts
+  - Runway scenarios (conservative / base / optimistic) — how long your money lasts
+  - Savings rate monitoring
+  - Liability tracker for subscriptions, insurance, loans
+  - Goals with progress tracking
+- Transition naturally into data collection: "To get started, I'll need to know a few things about your financial setup."
+
+Keep it short and warm — a few bullet points, not a wall of text. Don't sound like a product description.
 
 ## Add-on Selection
 
-After collecting currency and mode, present the optional add-ons. Explain each in one line:
+These are the optional add-ons. Explain each in one line:
 
 - **Liquidity tiers** — classify accounts by how quickly you can access the money (immediate / short-term / illiquid)
 - **Tax-advantaged flags** — mark which accounts have tax benefits (e.g., retirement accounts, ISAs)
@@ -113,9 +129,7 @@ The schemas below are starting templates. Freely adapt the structure, add fields
       "currency": "",
       "asset_type": "",
       "asset_class": "equities|bonds|reits|crypto|commodities|cash_equivalents|other",
-      "holdings": [
-        { "ticker": "", "units": 0 }
-      ],
+      "holdings": [{ "ticker": "", "units": 0 }],
       "balance": 0,
       "platform": "",
       "liquidity_tier": "immediate|short_term|illiquid",
