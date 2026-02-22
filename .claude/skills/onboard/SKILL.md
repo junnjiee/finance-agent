@@ -18,7 +18,7 @@ On first interaction (or when `data/` files don't exist), collect the following 
 8. **Goals** — financial goals with target amounts and dates
 9. **Add-on details** — additional data based on enabled add-ons
 
-## Step 3: Add-on Selection
+## Add-on Selection
 
 After collecting currency and mode, present the optional add-ons. Explain each in one line:
 
@@ -29,7 +29,7 @@ After collecting currency and mode, present the optional add-ons. Explain each i
 
 Ask the user which add-ons apply to their situation. They can pick none, some, or all.
 
-## Step 4-7: Core Data Collection
+## Core Data Collection
 
 Collect accounts, income, expenses, and liabilities.
 
@@ -43,7 +43,7 @@ If **asset class tags** is enabled: for each investment account, ask for the ass
 
 If **currency exposure** is enabled: confirm which currencies are held across accounts. Exchange rates are fetched automatically via `mtool ticker` (e.g., `mtool ticker -t USDSGD=X`) — no need to ask the user for rates.
 
-## Step 8: Goals
+## Goals
 
 Ask about financial goals:
 
