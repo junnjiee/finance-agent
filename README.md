@@ -10,7 +10,11 @@ Finance apps make you fit their boxes. Fixed categories, manual updates, rigid w
 > I just bought 50 shares of VOO
 ```
 
-It fetches live prices, runs the math, updates your data, and explains the answer — all from a single conversation in [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
+Fetch live prices, run calculations, ask for advice, create custom visualizations, and more. All you need is [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
+
+## Privacy First
+
+All data stays on your machine in `data/`. Nothing leaves your laptop.
 
 ## What It Does
 
@@ -19,10 +23,6 @@ It fetches live prices, runs the math, updates your data, and explains the answe
 - **Savings rate** and **liability tracking** computed from your actual data
 - **Financial goals** with progress tracking and required contribution calculations
 - **Modular add-ons** — liquidity tiers, tax-advantaged flags, asset class tags, currency exposure
-
-## Privacy First
-
-All data stays on your machine as plain JSON files. Nothing leaves your laptop. The `data/` directory is gitignored by default.
 
 ## Get Started
 
