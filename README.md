@@ -1,8 +1,8 @@
 # Finance Agent
 
-**Your finances, managed through ~forms and dashboards~ conversation.**
+**Your personal finance, managed through ~forms and dashboards~ conversation.**
 
-Finance apps make you fit their boxes. Fixed categories, manual updates, rigid workflows. Finance Agent flips it: just _talk_ about your money and it handles the rest.
+Personal finance apps make you fit their boxes. Fixed categories, manual updates, rigid workflows. Finance Agent flips it: just _talk_ about your money and it handles the rest.
 
 ```
 > What's my financial status looking like?
