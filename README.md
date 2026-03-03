@@ -10,7 +10,9 @@ Finance apps make you fit their boxes. Fixed categories, manual updates, rigid w
 > I just bought 50 shares of VOO
 ```
 
-Fetch live prices, run calculations, ask for advice, create custom visualizations, and more. All you need is [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
+Fetch live prices, run calculations, ask for advice, create custom visualizations, and more.
+
+I developed this to work seamlessly in [Claude Code](https://docs.anthropic.com/en/docs/claude-code), but you can use other agent harnesses/models such as Codex or Opencode.
 
 ## Privacy First
 
@@ -32,6 +34,10 @@ uv sync
 ```
 
 Open Claude Code in the project directory and `/onboard` to get started.
+
+## Roadmap
+
+- seamless Ollama support for local models
 
 ---
 
