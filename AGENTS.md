@@ -38,6 +38,8 @@ On first interaction (or when `data/` files don't exist), run the `/onboard` ski
 
 ## Environment Setup
 
+If `uv` or Python is not installed, prompt the user to install `.
+
 Before any calculations or `mtool` usage, ensure the project venv is ready by running `uv sync`. Use `.venv/bin/mtool` for ticker/exchange rate lookups and `.venv/bin/python` for any math or date computations.
 
 ### mtool Caching
