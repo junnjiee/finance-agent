@@ -1,176 +1,120 @@
 ---
 name: onboard
-description: Collect the user's financial data and create initial JSON files in data/. Run on first interaction or when data/ files don't exist.
-allowed-tools: Read, Write, Glob, Bash, AskUserQuestion
+description: Collect the user's initial financial data and create the base JSON files in data/. Use on first interaction or when local finance files do not exist yet. Focus on baseline data collection and flexible core schemas; do not handle feature or add-on selection here.
 ---
 
-# Onboarding Flow
+# Onboarding
 
-On first interaction (or when `data/` files don't exist), collect the following in order:
+Use this skill to set up a user's local finance data for the first time.
 
-1. **Overview** — introduce yourself and explain what you can do (see below)
-2. **Primary currency** (e.g., SGD, USD, EUR)
-3. **Current mode** — wealth building or runway
-4. **Add-on selection** — toggle optional features (see below)
-5. **Accounts** — list of savings accounts, investment accounts, and cash holdings with balances
-6. **Monthly income** (if wealth building mode) — salary, freelance, side income
-7. **Monthly expenses** — rent, food, transport, discretionary, etc.
-8. **Recurring liabilities** — subscriptions, insurance, loan repayments
-9. **Goals** — financial goals with target amounts and dates
-10. **Add-on details** — additional data based on enabled add-ons
+The goal is narrow:
 
-## Overview (first thing shown)
+- collect the user's baseline financial information
+- define broad JSON schemas that fit their situation
+- write the initial files in `data/`
 
-Before collecting any data, **introduce yourself using first person**. The user needs to know what they're setting up before answering questions. Use a personal, conversational tone — speak as "I", not "the tool" or "the assistant". Cover:
+Do not use onboarding to decide which optional finance features apply. Feature-specific skills can add fields or files later.
 
-- What you do: "I'm a personal finance assistant that runs in your terminal. All your data stays local as JSON files — nothing leaves your machine."
-- **Core features everyone gets** (brief bullets):
-  - Net worth tracking across all accounts
-  - Runway scenarios (conservative / base / optimistic) — how long your money lasts
-  - Savings rate monitoring
-  - Liability tracker for subscriptions, insurance, loans
-  - Goals with progress tracking
-- Transition naturally into data collection: "To get started, I'll need to know a few things about your financial setup."
+## Working Style
 
-Keep it short and warm — a few bullet points, not a wall of text. Don't sound like a product description.
+- Use the current agent's normal way of asking questions, reading files, listing directories, and writing JSON. Do not rely on harness-specific tool names in the instructions.
+- Read any existing files in `data/` before asking questions so you do not overwrite information the user already provided.
+- Ask whether the user wants to provide everything at once or step by step, then match that pace.
+- Accept natural language input. Do not force a rigid template unless the user asks for one.
+- Keep a running summary of what has been captured so far.
+- Before writing files, show the full summary and get explicit confirmation.
 
-## Add-on Selection
+## Recommended Flow
 
-These are the optional add-ons. Explain each in one line:
+Collect the following in order, skipping sections that are clearly not relevant to the user:
 
-- **Liquidity tiers** — classify accounts by how quickly you can access the money (immediate / short-term / illiquid)
-- **Tax-advantaged flags** — mark which accounts have tax benefits (e.g., retirement accounts, ISAs)
-- **Asset class tags** — label investments by type (equities, bonds, REITs, crypto, etc.)
-- **Currency exposure** — track holdings in multiple currencies with exchange rate conversion
+1. **Overview**
+   Explain briefly what you track, that the data stays local in `data/` as JSON, and that you are going to collect the minimum needed to get started.
+2. **Profile**
+   Capture the user's base currency, currency symbol if they care about one, and current mode (`wealth_building` or `runway`).
+3. **Accounts**
+   Capture the accounts that matter for net worth and planning: cash, savings, investments, and any other material assets.
+4. **Cashflow**
+   Capture recurring income, recurring expenses, and recurring investment contributions if the user tracks them separately.
+5. **Liabilities**
+   Capture recurring obligations such as subscriptions, insurance, and loan repayments.
+6. **Goals**
+   Capture any financial goals with target amounts and dates.
+7. **Preferences**
+   Capture any defaults that should shape later analysis or presentation, such as preferred detail level or drawdown order.
 
-Ask the user which add-ons apply to their situation. They can pick none, some, or all.
+## Data Collection Rules
 
-## Core Data Collection
+- Keep onboarding focused on foundational data. Do not ask the user to enable or disable add-ons here.
+- If the user volunteers information that belongs to a more specialized feature, preserve it only if it fits naturally into the schema. Otherwise note that a later skill can add it.
+- For investment accounts, offer two storage styles:
+  - units-based holdings with `ticker` and `units`
+  - balance-based accounts with a manually maintained `balance`
+- Recommend units-based holdings because later skills can price them automatically, but do not force that format.
+- If a user provides a short ticker and you need to store it as a Yahoo Finance symbol, prepare the environment with `uv sync` and use `.venv/bin/mtool` to verify the symbol before saving it.
+- Use ISO 8601 dates (`YYYY-MM-DD`) for stored dates.
+- Do not store unnecessary sensitive information such as account numbers or national identifiers.
 
-Collect accounts, income, expenses, and liabilities.
+## File Setup
 
-### Add-on-specific fields during account collection
+Before calculations or `mtool` usage, prepare the project environment with `uv sync`.
 
-If **liquidity tiers** is enabled: for each account, ask the user to classify it as immediate, short-term, or illiquid.
+Create or update the base files in `data/`:
 
-If **tax-advantaged flags** is enabled: for each account, ask whether it's tax-advantaged.
+- `profile.json`
+- `accounts.json`
+- `cashflow.json`
+- `liabilities.json`
+- `goals.json`
 
-If **asset class tags** is enabled: for each investment account, ask for the asset class (equities, bonds, REITs, crypto, commodities, cash equivalents, or other).
+Only create the files that are relevant to the information the user has actually provided. If a section is not yet known, it can be omitted until later.
 
-If **currency exposure** is enabled: confirm which currencies are held across accounts. Exchange rates are fetched automatically via `mtool ticker` (e.g., `mtool ticker -t USDSGD=X`) — no need to ask the user for rates.
+## Schema Guidance
 
-## Goals
-
-Ask about financial goals:
-
-- Goal name (e.g., "Emergency fund", "House deposit", "Retirement")
-- Target amount
-- Target date
-- Which accounts are allocated to this goal (optional)
-
-## Onboarding Guidelines
-
-- **Use AskUserQuestion only for structured choices** — use `AskUserQuestion` for questions with predefined options (currency, mode, add-ons, liquidity tiers, yes/no confirmations, pace preference). Do NOT use it for freeform data collection (account names, balances, expenses, goal details, liabilities) — just ask in plain text and parse the user's natural input.
-  - Use `multiSelect: true` when the user can pick multiple items (e.g., add-on selection).
-  - Group related choice questions together — you can ask up to 4 questions in a single `AskUserQuestion` call.
-- **Adaptive pace** — ask the user if they want to provide everything at once or go through it step by step. Follow their preferred style.
-- **Accept freeform input** — don't suggest or enforce a specific format. Parse whatever the user types naturally and confirm back what was understood.
-- **Running tally** — when collecting data across multiple messages, periodically show what's been collected so far so the user can spot mistakes early.
-- **Ask for missing fields** — don't silently accept empty values for important fields (e.g., `due_day` on liabilities). Prompt for them, but let the user skip if they don't know.
-- **Don't overwhelm** — if the user has few accounts and no add-ons, keep it brief. Only ask add-on-specific questions for enabled add-ons.
-- **Confirmation before persisting** — after all data is collected, show a full summary and get explicit confirmation (via `AskUserQuestion`) before writing any JSON files.
-- **Set up project dependencies** — at the start of onboarding, run `uv sync` to ensure the Python virtual environment and project dependencies (including `mtool`) are installed. Then use `.venv/bin/mtool` (or activate the venv first) for any `mtool` commands. Don't wait until the user asks for a calculation to discover the environment isn't set up.
-- **Show progress** — at each step, indicate where the user is in the flow (e.g., "Step 3 of 7: Accounts"). This helps the user know how much is left and prevents the onboarding from feeling endless.
-
-## Data Files
-
-All financial data is stored as JSON files in the `data/` directory. Use ISO 8601 dates (YYYY-MM-DD) for all date fields.
-
-## Schema Guidelines
-
-The schemas below are starting templates. Freely adapt the structure, add fields, or reorganize to fit the user's specific needs.
+These schemas are intentionally broad. Adapt them to the user's situation instead of forcing the user into a rigid model. Later skills may extend these files with additional fields.
 
 **profile.json**
 
 ```json
 {
-  "currency": "",
+  "base_currency": "",
+  "currency_symbol": "",
   "mode": "wealth_building|runway",
-  "features": {
-    "liquidity_tiers": false,
-    "tax_advantaged": false,
-    "asset_class_tags": false,
-    "currency_exposure": false
-  },
-  "exchange_rates": {},
+  "preferences": {},
   "created": "YYYY-MM-DD",
   "last_updated": "YYYY-MM-DD"
 }
 ```
 
+Notes:
+
+- `preferences` is the long-term memory for user-specific defaults.
+- Add other top-level keys only when the user actually needs them.
+
 **accounts.json**
 
 ```json
 {
-  "savings": [
+  "accounts": [
     {
       "name": "",
-      "balance": 0,
+      "type": "cash|savings|investment|other_asset",
       "currency": "",
-      "interest_rate": 0,
+      "balance": 0,
       "institution": "",
-      "liquidity_tier": "immediate|short_term|illiquid",
-      "tax_advantaged": false
-    }
-  ],
-  "investments": [
-    {
-      "name": "",
-      "currency": "",
-      "asset_type": "",
-      "asset_class": "equities|bonds|reits|crypto|commodities|cash_equivalents|other",
+      "interest_rate": 0,
       "holdings": [{ "ticker": "", "units": 0 }],
-      "balance": 0,
-      "platform": "",
-      "liquidity_tier": "immediate|short_term|illiquid",
-      "tax_advantaged": false
-    }
-  ],
-  "cash": [
-    {
-      "name": "",
-      "balance": 0,
-      "currency": "",
-      "liquidity_tier": "immediate|short_term|illiquid"
-    }
-  ]
-}
-```
-
-Note: Investment accounts support two formats — **units-based** (`holdings` with ticker + units, balance auto-fetched via `mtool ticker`) or **balance-based** (flat `balance` field, manually updated). Use one or the other per account, not both. During onboarding, suggest units-based for automated pricing but let the user choose.
-
-`liquidity_tier`, `tax_advantaged`, and `asset_class` fields are only included when the corresponding add-on is enabled. Omit them for users who haven't enabled those features. `asset_type` is always available for freeform descriptions (e.g., "ETF", "individual stock"), while `asset_class` is the add-on category tag (e.g., "equities", "bonds").
-
-**liabilities.json**
-
-```json
-{
-  "items": [
-    {
-      "name": "",
-      "amount": 0,
-      "currency": "",
-      "frequency": "monthly|quarterly|yearly",
-      "due_day": 1,
-      "due_month": 1,
-      "category": "subscription|insurance|loan|other",
       "notes": ""
     }
   ]
 }
 ```
 
-Note: Do not store fixed `next_due` dates. Instead, store `due_day` (1-31) for monthly/quarterly items, and `due_day` + `due_month` (1-12) for yearly items. Compute `next_due` dynamically from today's date at read time. `due_month` is only needed for yearly frequency — omit it for monthly/quarterly.
+Notes:
+
+- Use either `balance` or `holdings` as the main valuation source for an account.
+- `holdings` is mainly for units-based investment accounts.
+- Add fields only when they help later analysis.
 
 **cashflow.json**
 
@@ -198,6 +142,31 @@ Note: Do not store fixed `next_due` dates. Instead, store `due_day` (1-31) for m
 }
 ```
 
+**liabilities.json**
+
+```json
+{
+  "items": [
+    {
+      "name": "",
+      "amount": 0,
+      "currency": "",
+      "frequency": "monthly|quarterly|yearly",
+      "due_day": 1,
+      "due_month": 1,
+      "category": "subscription|insurance|loan|other",
+      "notes": ""
+    }
+  ]
+}
+```
+
+Notes:
+
+- Store recurring obligations, not one-off spending.
+- Do not store a fixed `next_due` date. Compute it later from `due_day` and `due_month`.
+- `due_month` is only needed for yearly items.
+
 **goals.json**
 
 ```json
@@ -209,8 +178,19 @@ Note: Do not store fixed `next_due` dates. Instead, store `due_day` (1-31) for m
       "currency": "",
       "target_date": "YYYY-MM-DD",
       "linked_accounts": [],
-      "created": "YYYY-MM-DD"
+      "created": "YYYY-MM-DD",
+      "notes": ""
     }
   ]
 }
 ```
+
+## Completion Checklist
+
+Before finishing onboarding:
+
+- make sure the captured data matches what the user said
+- call out any assumptions or missing fields clearly
+- get explicit confirmation before writing or overwriting files
+- write the JSON files immediately after confirmation
+- tell the user which files were created or updated
