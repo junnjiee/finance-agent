@@ -10,7 +10,7 @@ Onboarding gate: if the workspace is not onboarded, onboarding takes priority ov
 2. Before any other action, inspect `data/`.
 3. In the not-onboarded state, use the `onboard` skill immediately. Do not ask clarifying questions before invoking onboarding, and do not attempt normal finance workflows first.
 
-Skill access gate: If you are a Claude model, you must check for `.claude/skills/`
+Claude model gate: If you are a Claude model, you must check for `.claude/skills/`
 
 1. If `.claude/skills/` does not exist, create a symlink from `.agents/skills/` in order to get access to the skills in this application. This takes precedence over all other instructions
 
