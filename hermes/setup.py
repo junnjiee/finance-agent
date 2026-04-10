@@ -164,33 +164,58 @@ def configure_hermes(data_dir: str):
     import re
 
     HERMES_HOME.mkdir(parents=True, exist_ok=True)
-    block = (
-        "\n# finance-agent skill configuration (added by hermes/setup.py)\n"
+    quoted_dir = f'"{data_dir}"'
+
+    # Used when the file does not exist or has no skills: key at all.
+    new_block = (
+        "# finance-agent skill configuration (added by hermes/setup.py)\n"
         "skills:\n"
         "  config:\n"
         "    finance_agent:\n"
-        f"      data_dir: {data_dir}\n"
+        f"      data_dir: {quoted_dir}\n"
     )
 
     if not HERMES_CONFIG.exists():
-        HERMES_CONFIG.write_text(block.lstrip())
+        HERMES_CONFIG.write_text(new_block)
         print(f"\n  installed  {HERMES_CONFIG}")
         return
 
     existing = HERMES_CONFIG.read_text()
-    if "finance_agent" not in existing:
-        with open(HERMES_CONFIG, "a") as f:
-            f.write(block)
+
+    # Case: finance_agent block already exists → update data_dir value in place.
+    if "finance_agent" in existing:
+        updated = re.sub(
+            r"(finance_agent:\s*\n\s*data_dir:\s*).*",
+            f"\\1{quoted_dir}",
+            existing,
+        )
+        HERMES_CONFIG.write_text(updated)
+        print(f"\n  updated    finance_agent.data_dir → {data_dir}")
+        return
+
+    # Case: skills: key exists but no finance_agent block → insert under it.
+    if re.search(r"^skills\s*:", existing, re.MULTILINE):
+        finance_agent_block = (
+            "  config:\n"
+            "    finance_agent:\n"
+            f"      data_dir: {quoted_dir}\n"
+        )
+        updated = re.sub(
+            r"(^skills\s*:\s*\n)",
+            r"\1" + finance_agent_block,
+            existing,
+            count=1,
+            flags=re.MULTILINE,
+        )
+        HERMES_CONFIG.write_text(updated)
         print(f"\n  installed  finance_agent.data_dir → {data_dir}")
         return
 
-    updated = re.sub(
-        r"(finance_agent:\s*\n\s*data_dir:\s*).*",
-        f"\\1{data_dir}",
-        existing,
-    )
-    HERMES_CONFIG.write_text(updated)
-    print(f"\n  updated    finance_agent.data_dir → {data_dir}")
+    # Case: no skills: key at all → append the full block.
+    with open(HERMES_CONFIG, "a") as f:
+        separator = "\n" if existing and not existing.endswith("\n") else ""
+        f.write(f"{separator}\n{new_block}")
+    print(f"\n  installed  finance_agent.data_dir → {data_dir}")
 
 
 # ---------------------------------------------------------------------------
