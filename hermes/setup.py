@@ -7,6 +7,7 @@ Usage:
     uv run python hermes/setup.py
 """
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -97,23 +98,38 @@ def transform(content: str, skill_name: str, data_dir: str) -> str:
 
     # 3. Fix venv-relative tool calls
     result = "\n".join(new_frontmatter + new_body)
+
+    # Path replacements — literal paths, exact match is fine
     result = result.replace(".venv/bin/mtool", "mtool")
     result = result.replace(".venv/bin/python", "python3")
-    result = result.replace(
-        "prepare the project environment with `uv sync`",
+
+    # uv sync replacements — use regex so minor rewording in skill bodies
+    # doesn't cause silent failures.
+    #
+    # Pattern A: "prepare/ensure [the] [project] environment [prep word] `uv sync`"
+    result = re.sub(
+        r"(?:prepare|ensure)\s+(?:the\s+)?(?:project\s+)?"
+        r"environment\s+\w+\s+`uv sync`",
         "ensure `mtool` is installed (run `python hermes/setup.py` from the finance-agent repo)",
+        result,
     )
-    result = result.replace(
-        "ensure the project environment is ready with `uv sync`",
-        "ensure `mtool` is installed (run `python hermes/setup.py` from the finance-agent repo)",
-    )
-    result = result.replace(
-        "If the environment is not ready yet, run `uv sync` first",
-        "mtool is installed globally — no environment activation needed",
-    )
-    result = result.replace(
-        "prepare the environment with `uv sync` and use",
+    # Pattern B: "... environment with `uv sync` and use" (trailing conjunction)
+    result = re.sub(
+        r"(?:prepare|ensure)\s+(?:the\s+)?(?:\w+\s+)?environment\s+with\s+`uv sync`\s+and\s+use",
         "use",
+        result,
+    )
+    # Pattern C: "If [the] environment is not ready[...], run `uv sync` [first]"
+    result = re.sub(
+        r"If (?:the )?environment is not ready[^,]*,?\s+run `uv sync`\s*\w*",
+        "mtool is installed globally — no environment activation needed",
+        result,
+    )
+    # Pattern D: any remaining standalone "run `uv sync`" reference
+    result = re.sub(
+        r"run `uv sync`",
+        "ensure `mtool` is installed globally",
+        result,
     )
 
     return result
