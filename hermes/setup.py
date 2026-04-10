@@ -209,20 +209,35 @@ def configure_hermes(data_dir: str):
         print(f"\n  updated    finance_agent.data_dir → {data_dir}")
         return
 
-    # Case: skills: key exists but no finance_agent block → insert under it.
+    # Case: skills: key exists but no finance_agent block.
     if re.search(r"^skills\s*:", existing, re.MULTILINE):
-        finance_agent_block = (
-            "  config:\n"
-            "    finance_agent:\n"
-            f"      data_dir: {quoted_dir}\n"
-        )
-        updated = re.sub(
-            r"(^skills\s*:\s*\n)",
-            r"\1" + finance_agent_block,
-            existing,
-            count=1,
-            flags=re.MULTILINE,
-        )
+        # Sub-case: skills.config already exists → append finance_agent under it.
+        if re.search(r"^  config\s*:", existing, re.MULTILINE):
+            fa_entry = (
+                "    finance_agent:\n"
+                f"      data_dir: {quoted_dir}\n"
+            )
+            updated = re.sub(
+                r"(^  config\s*:\n)",
+                r"\1" + fa_entry,
+                existing,
+                count=1,
+                flags=re.MULTILINE,
+            )
+        else:
+            # Sub-case: no config: under skills yet → create it.
+            fa_entry = (
+                "  config:\n"
+                "    finance_agent:\n"
+                f"      data_dir: {quoted_dir}\n"
+            )
+            updated = re.sub(
+                r"(^skills\s*:\s*\n)",
+                r"\1" + fa_entry,
+                existing,
+                count=1,
+                flags=re.MULTILINE,
+            )
         HERMES_CONFIG.write_text(updated)
         print(f"\n  installed  finance_agent.data_dir → {data_dir}")
         return

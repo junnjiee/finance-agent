@@ -34,7 +34,7 @@ git clone <repo-url> && cd finance-agent
 uv sync
 ```
 
-Open your coding harness in the project directory and run `/onboard` to get started. You can start by just talking to it too, say hi!
+Open your coding harness in the project directory and run `/fa-onboard` to get started. You can start by just talking to it too, say hi!
 
 ### Getting Started with Hermes Agent
 
