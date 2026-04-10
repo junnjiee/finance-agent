@@ -1,6 +1,6 @@
 # Finance Agent
 
-**Your personal finance, managed through ~forms and dashboards~ conversation. Works with Hermes Agent (OpenClaw coming soon...)**
+**Your personal finance, managed through ~forms and dashboards~ conversation. Works with Hermes Agent and OpenClaw.**
 
 Personal finance apps make you fit their boxes. Fixed categories, manual updates, rigid workflows. Finance Agent flips it: just _talk_ about your money and it handles the rest.
 
@@ -35,6 +35,43 @@ uv sync
 ```
 
 Open your coding harness in the project directory and run `/fa-onboard` to get started. You can start by just talking to it too, say hi!
+
+### Getting Started with OpenClaw
+
+You can send OpenClaw the link to this repo and get it to set up for you.
+
+#### Prerequisites
+
+- [OpenClaw](https://openclaw.ai) installed
+- [`uv`](https://docs.astral.sh/uv/) installed
+- Python 3.13 or later
+
+#### Setup
+
+1. **Clone the repo**
+
+   ```bash
+   git clone <repo-url>
+   cd finance-agent
+   ```
+
+2. **Run the setup script**
+
+   ```bash
+   bash openclaw/setup.sh
+   ```
+
+   The script will:
+   - Prompt for your data directory path (default: `<repo>/data`) — press Enter to accept
+   - Install `mtool` globally via `uv tool install --reinstall` (used for live ticker, history, and FX lookups)
+   - Generate OpenClaw-flavored skill files into `~/.openclaw/skills/`
+   - Write `FINANCE_AGENT_DATA_DIR` into `~/.openclaw/openclaw.json` under each skill's entry so OpenClaw injects the data path automatically
+
+#### Updating Skills or Changing the Data Directory
+
+Re-run `bash openclaw/setup.sh` at any time to update the installed skills or point to a different data directory. The script safely merges into your existing `~/.openclaw/openclaw.json` without clobbering other settings.
+
+---
 
 ### Getting Started with Hermes Agent
 
