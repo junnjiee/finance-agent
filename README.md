@@ -67,19 +67,6 @@ You can send Hermes the link to this repo and get it to set up for you.
    - Generate Hermes-flavored skill files into `~/.hermes/skills/finance_agent/`
    - Write `finance_agent.data_dir` into `~/.hermes/config.yaml` so Hermes knows where your data lives
 
-#### Available Skills
-
-Once setup completes, the following skills are available in Hermes:
-
-| Skill                  | Invoke                  | Use for                                               |
-| ---------------------- | ----------------------- | ----------------------------------------------------- |
-| `fa-onboard`           | `/fa-onboard`           | Initial setup — collect your baseline financial data  |
-| `fa-net-worth`         | `/fa-net-worth`         | Net worth, portfolio valuations, and asset allocation |
-| `fa-analyze-cashflow`  | `/fa-analyze-cashflow`  | Cashflow, savings rate, burn rate, and runway         |
-| `fa-liability-tracker` | `/fa-liability-tracker` | Recurring liabilities and subscription tracking       |
-
-Start Hermes from any directory — skills and your data directory are pre-configured automatically.
-
 #### Updating Skills or Changing the Data Directory
 
 Re-run `bash hermes/setup.sh` at any time to update the installed skills or point to a different data directory. The script safely updates your existing `~/.hermes/config.yaml` without clobbering other settings.
@@ -87,10 +74,6 @@ Re-run `bash hermes/setup.sh` at any time to update the installed skills or poin
 ## Contributing
 
 All suggestions and contributions welcome. Submit an issue if you have any suggestions.
-
-## Roadmap
-
-- Ollama support for local models
 
 ---
 
