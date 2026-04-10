@@ -9,7 +9,8 @@ Use this skill to show your user's net worth based on the data collected
 
 ## Load the local finance context
 
-- Read `data/profile.json` first. If it does not exist, direct the user to onboard using the `onboard` skill.
+- If `data/` does not exist, direct the user to onboard using the `onboard` skill.
+- Read `data/profile.json` first.
 - Read `preferences` from `data/profile.json` before deciding how much detail to show.
 - Read `data/assets.json` and any other files that contain net worth related information.
 
