@@ -18,21 +18,21 @@ HERMES_SKILLS_DIR = HERMES_HOME / "skills" / "finance_agent"
 HERMES_CONFIG = HERMES_HOME / "config.yaml"
 
 SKILL_META = {
-    "onboard": {
+    "fa-onboard": {
         "tags": ["finance", "personal-finance", "setup", "onboarding"],
-        "related_skills": ["net-worth", "analyze-cashflow", "liability-tracker"],
+        "related_skills": ["fa-net-worth", "fa-analyze-cashflow", "fa-liability-tracker"],
     },
-    "net-worth": {
+    "fa-net-worth": {
         "tags": ["finance", "personal-finance", "net-worth", "portfolio"],
-        "related_skills": ["onboard", "analyze-cashflow", "liability-tracker"],
+        "related_skills": ["fa-onboard", "fa-analyze-cashflow", "fa-liability-tracker"],
     },
-    "analyze-cashflow": {
+    "fa-analyze-cashflow": {
         "tags": ["finance", "personal-finance", "cashflow", "runway", "savings"],
-        "related_skills": ["onboard", "net-worth", "liability-tracker"],
+        "related_skills": ["fa-onboard", "fa-net-worth", "fa-liability-tracker"],
     },
-    "liability-tracker": {
+    "fa-liability-tracker": {
         "tags": ["finance", "personal-finance", "liabilities", "subscriptions"],
-        "related_skills": ["onboard", "analyze-cashflow", "net-worth"],
+        "related_skills": ["fa-onboard", "fa-analyze-cashflow", "fa-net-worth"],
     },
 }
 

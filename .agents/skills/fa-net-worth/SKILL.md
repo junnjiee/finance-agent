@@ -1,5 +1,5 @@
 ---
-name: net-worth
+name: fa-net-worth
 description: Calculate and explain current net worth, account valuations, portfolio allocation and portfolio performance using local data files and live market data. Use when you need to answer questions like "what's my net worth", "show my asset allocations", "how did my holdings perform", "summarize my accounts" or break assets down by liquidity tier, currency exposure, tax status, or asset class.
 ---
 
@@ -9,7 +9,7 @@ Use this skill to show your user's net worth based on the data collected
 
 ## Load the local finance context
 
-- If `data/` does not exist, direct the user to onboard using the `onboard` skill.
+- If `data/` does not exist, direct the user to onboard using the `fa-onboard` skill.
 - Read `data/profile.json` first.
 - Read `preferences` from `data/profile.json` before deciding how much detail to show.
 - Read `data/assets.json` and any other files that contain net worth related information.

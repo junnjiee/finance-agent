@@ -1,5 +1,5 @@
 ---
-name: analyze-cashflow
+name: fa-analyze-cashflow
 description: Analyze monthly cashflow and show either savings rate or runway automatically. Use when the user asks about cashflow, monthly surplus/deficit, burn rate, savings rate, how long to reach a goal amount, how long their money will last, or other relevant questions.
 ---
 
@@ -15,7 +15,7 @@ The core rule is simple:
 
 ## Load the local finance context
 
-- If `data/` does not exist, direct the user to onboard using the `onboard` skill.
+- If `data/` does not exist, direct the user to onboard using the `fa-onboard` skill.
 - Read `data/profile.json` first.
 - Read all current data files before making recommendations or calculations
 

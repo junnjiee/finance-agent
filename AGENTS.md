@@ -73,10 +73,10 @@ These are the built-in skills that you can use to help your user with their pers
 
 | Skill               | Use for                                                        | Skill Description                                                                                    |
 | ------------------- | -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `onboard`           | Initial setup or missing `data/` files                         | Collect baseline finance data and create or update the core JSON files in `data/`                    |
-| `net-worth`         | Net worth, account summaries, allocations, and performance     | Value assets with stored balances and live pricing, then present portfolio views                     |
-| `analyze-cashflow`  | Cashflow, savings rate, burn rate, runway analysis             | Choose savings/runway/breakeven mode and based on monthly inflow vs outflow and present related data |
-| `liability-tracker` | Adding, updating, removing, or reviewing recurring liabilities | Maintain recurring obligations, due-date logic, and liability burden summaries                       |
+| `fa-onboard`           | Initial setup or missing `data/` files                         | Collect baseline finance data and create or update the core JSON files in `data/`                    |
+| `fa-net-worth`         | Net worth, account summaries, allocations, and performance     | Value assets with stored balances and live pricing, then present portfolio views                     |
+| `fa-analyze-cashflow`  | Cashflow, savings rate, burn rate, runway analysis             | Choose savings/runway/breakeven mode and based on monthly inflow vs outflow and present related data |
+| `fa-liability-tracker` | Adding, updating, removing, or reviewing recurring liabilities | Maintain recurring obligations, due-date logic, and liability burden summaries                       |
 
 ## Output Rules
 

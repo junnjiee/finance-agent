@@ -1,5 +1,5 @@
 ---
-name: liability-tracker
+name: fa-liability-tracker
 description: Track recurring liabilities such as subscriptions, insurance, and loans. Use when the user wants to add, update, remove, summarize, or review upcoming recurring payments
 ---
 
@@ -14,7 +14,7 @@ Use this skill when the user wants to:
 
 ## Load the local finance context
 
-- If `data/` does not exist, direct the user to onboard using the `onboard` skill.
+- If `data/` does not exist, direct the user to onboard using the `fa-onboard` skill.
 - Read `data/profile.json` first.
 - Read `data/liabilities.json` before making calculations or recommendations.
 - When the user reports a change, confirm the intended edit if it would overwrite or remove an existing item, then update `data/liabilities.json` immediately.
