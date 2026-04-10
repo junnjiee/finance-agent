@@ -19,9 +19,13 @@ def ticker(
     for symbol in symbols:
         t = yf.Ticker(symbol)
         info = t.info
+        price = info.get("currentPrice") or info.get("regularMarketPrice")
+        if price is None:
+            results[symbol.upper()] = {"error": "No price available"}
+            continue
         results[symbol.upper()] = {
             "name": info.get("shortName"),
-            "price": info.get("currentPrice") or info.get("regularMarketPrice"),
+            "price": price,
             "currency": info.get("currency"),
             "market_cap": info.get("marketCap"),
             "52w_high": info.get("fiftyTwoWeekHigh"),
