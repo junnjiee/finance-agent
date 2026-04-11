@@ -68,7 +68,6 @@ def update():
 
     if already_up_to_date:
         console.print("Already up to date.")
-        return
 
     with console.status("Reinstalling mtool and refreshing skills..."):
         result = subprocess.run(
