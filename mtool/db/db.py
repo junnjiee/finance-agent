@@ -19,6 +19,7 @@ MIGRATIONS = [
             created_at  TEXT NOT NULL DEFAULT (datetime('now'))
         )
     """,
+    "ALTER TABLE expenses ADD COLUMN email_id TEXT UNIQUE",
 ]
 
 

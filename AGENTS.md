@@ -103,6 +103,7 @@ These are the built-in skills that you can use to help your user with their pers
 | `fa-analyze-cashflow`  | Cashflow, savings rate, burn rate, runway analysis             | Choose savings/runway/breakeven mode and based on monthly inflow vs outflow and present related data |
 | `fa-liability-tracker` | Adding, updating, removing, or reviewing recurring liabilities | Maintain recurring obligations, due-date logic, and liability burden summaries                       |
 | `fa-expense-tracker`   | Logging, editing, deleting, and analyzing individual expenses  | CRUD expenses via CLI, category/merchant inference, monthly summaries, trends, and budget comparison |
+| `fa-email-receipts`    | Auto-importing expenses from email receipts (Hermes/OpenClaw only) | Read inbox for receipts, deduplicate by email ID, review-then-confirm flow before logging |
 
 ## Output Rules
 

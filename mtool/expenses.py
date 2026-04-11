@@ -1,7 +1,7 @@
 import json
 from typing import Annotated, Optional
 import typer
-from mtool.db.expenses import add_expense, list_expenses, update_expense, delete_expense
+from mtool.db.expenses import add_expense, list_expenses, update_expense, delete_expense, get_expense_by_email_id
 
 app = typer.Typer(help="Manage expenses in a local database.")
 
@@ -21,6 +21,7 @@ def cmd_add(
         Optional[str], typer.Option("--description", "--desc")
     ] = None,
     account: Annotated[Optional[str], typer.Option("--account", "-a")] = None,
+    email_id: Annotated[Optional[str], typer.Option("--email-id", help="Source email message ID (for receipt imports)")] = None,
 ):
     """Add a new expense."""
     row = add_expense(
@@ -32,6 +33,7 @@ def cmd_add(
         merchant=merchant,
         description=description,
         account=account,
+        email_id=email_id,
     )
     typer.echo(json.dumps(row, indent=2))
 
@@ -78,6 +80,7 @@ def cmd_update(
         Optional[str], typer.Option("--description", "--desc")
     ] = None,
     account: Annotated[Optional[str], typer.Option("--account", "-a")] = None,
+    email_id: Annotated[Optional[str], typer.Option("--email-id", help="Source email message ID")] = None,
 ):
     """Update fields on an existing expense."""
     fields = {
@@ -91,6 +94,7 @@ def cmd_update(
             "merchant": merchant,
             "description": description,
             "account": account,
+            "email_id": email_id,
         }.items()
         if v is not None
     }
@@ -121,3 +125,15 @@ def cmd_delete(
         typer.echo(f"No expense found with id {id}.", err=True)
         raise typer.Exit(1)
     typer.echo(f"Deleted expense {id}.")
+
+
+@app.command("find-by-email")
+def cmd_find_by_email(
+    email_id: Annotated[str, typer.Argument(help="Email message ID to look up")],
+):
+    """Find an expense by its source email message ID. Returns the expense or exits 1 if not found."""
+    row = get_expense_by_email_id(email_id)
+    if row is None:
+        typer.echo("{}", err=False)
+        raise typer.Exit(1)
+    typer.echo(json.dumps(row, indent=2))

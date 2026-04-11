@@ -12,15 +12,16 @@ def add_expense(
     merchant: str | None = None,
     description: str | None = None,
     account: str | None = None,
+    email_id: str | None = None,
 ) -> dict:
     expense_date = expense_date or str(date.today())
     with get_db() as conn:
         cursor = conn.execute(
             """
-            INSERT INTO expenses (date, amount, currency, name, category, merchant, description, account)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO expenses (date, amount, currency, name, category, merchant, description, account, email_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
-            (expense_date, amount, currency, name, category, merchant, description, account),
+            (expense_date, amount, currency, name, category, merchant, description, account, email_id),
         )
         conn.commit()
         row = conn.execute(
@@ -75,6 +76,14 @@ def list_expenses(
         return [dict(r) for r in rows]
 
 
+def get_expense_by_email_id(email_id: str) -> dict | None:
+    with get_db() as conn:
+        row = conn.execute(
+            "SELECT * FROM expenses WHERE email_id = ?", (email_id,)
+        ).fetchone()
+        return dict(row) if row else None
+
+
 def update_expense(id: int, **fields) -> dict | None:
     allowed = {
         "date",
@@ -85,6 +94,7 @@ def update_expense(id: int, **fields) -> dict | None:
         "merchant",
         "description",
         "account",
+        "email_id",
     }
     updates = [(k, v) for k, v in fields.items() if k in allowed]
     if not updates:
