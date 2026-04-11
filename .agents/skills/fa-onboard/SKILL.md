@@ -30,7 +30,7 @@ Collect the following in order, skipping sections if they are not relevant to th
 3. **Assets**
    Capture the assets that matter for net worth and planning: cash, savings, investments, and any other material assets.
 4. **Cashflow**
-   Capture recurring income, recurring expenses, and recurring investment contributions if the user tracks them separately.
+   Capture recurring income and recurring investment contributions if the user tracks them separately.
 5. **Liabilities**
    Capture recurring obligations such as subscriptions, insurance, and loan repayments.
 6. **Goals**
@@ -118,14 +118,6 @@ Notes:
 {
   "income": [
     { "source": "", "amount": 0, "currency": "", "frequency": "monthly|yearly" }
-  ],
-  "planned_expenses": [
-    {
-      "category": "",
-      "amount": 0,
-      "currency": "",
-      "frequency": "monthly|yearly"
-    }
   ]
 }
 ```

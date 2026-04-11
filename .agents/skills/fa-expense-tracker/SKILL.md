@@ -1,6 +1,6 @@
 ---
 name: fa-expense-tracker
-description: Log, edit, delete, and analyze individual expenses. Use when the user wants to add an expense, view spending summaries, check category breakdowns, compare actuals to planned budget, or review spending trends. Defaults to the current month (MTD).
+description: Log, edit, delete, and analyze individual expenses. Use when the user wants to add an expense, view spending summaries, check category breakdowns, or review spending trends. Defaults to the current month (MTD).
 ---
 
 # Expense Tracker
@@ -15,7 +15,6 @@ Use this skill to manage and analyze individual expenses. It covers two responsi
 Resolve the data directory first: use `FINANCE_AGENT_DATA_DIR` if set, otherwise `~/.config/finance_agent/data/`.
 
 - Read `profile.json` to load `base_currency`, `currency_symbol`, and any expense-related preferences
-- Read `cashflow.json` to load `planned_expenses` for budget comparison
 - The handling of expense data can be managed through `mtool`,
 
 Relevant preferences to check in `profile.json` under `preferences`:
@@ -111,31 +110,6 @@ When the user asks for trends or month-over-month:
 - Show per-category delta: amount change and direction
 - Flag categories where spend increased >20% vs prior month
 - If fewer than 2 months of data exist, say so rather than fabricating a trend
-
-### Budget Comparison
-
-Compare actuals from the SQLite DB against `planned_expenses` in `cashflow.json`.
-
-**Matching logic (loose coupling):**
-
-1. Normalize both sides to lowercase
-2. Exact match first, then substring match (e.g. actual `"groceries"` matches planned `"grocery"`)
-3. For matched categories, show: planned amount, actual amount, delta, and over/under status
-4. For actual categories with no match in `planned_expenses`: show as "no budget set"
-5. For planned categories with no actual spend: show as "no spend recorded"
-
-Do not fail if matching is partial. Surface unmatched items clearly so the user can decide whether to align the names.
-
-**Normalize `planned_expenses` amounts to monthly** before comparing (divide yearly by 12, quarterly by 3).
-
-**Budget comparison table format:**
-
-| Category  | Planned | Actual | Delta | Status            |
-| --------- | ------- | ------ | ----- | ----------------- |
-| groceries | $500    | $430   | -$70  | under             |
-| transport | $150    | $210   | +$60  | over              |
-| dining    | —       | $320   | —     | no budget set     |
-| utilities | $100    | —      | —     | no spend recorded |
 
 ## Category Consistency
 
