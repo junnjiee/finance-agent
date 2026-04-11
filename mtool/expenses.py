@@ -10,6 +10,7 @@ app = typer.Typer(help="Manage expenses in a local database.")
 def cmd_add(
     amount: Annotated[float, typer.Argument(help="Expense amount")],
     currency: Annotated[str, typer.Argument(help="Currency code (e.g. USD, CAD)")],
+    name: Annotated[str, typer.Argument(help="Expense name")],
     date: Annotated[
         Optional[str],
         typer.Option("--date", "-d", help="Date (YYYY-MM-DD). Defaults to today."),
@@ -25,6 +26,7 @@ def cmd_add(
     row = add_expense(
         amount,
         currency,
+        name,
         expense_date=date,
         category=category,
         merchant=merchant,
@@ -68,6 +70,7 @@ def cmd_update(
     id: Annotated[int, typer.Argument(help="Expense ID to update")],
     amount: Annotated[Optional[float], typer.Option("--amount")] = None,
     currency: Annotated[Optional[str], typer.Option("--currency")] = None,
+    name: Annotated[Optional[str], typer.Option("--name", "-n")] = None,
     date: Annotated[Optional[str], typer.Option("--date", "-d")] = None,
     category: Annotated[Optional[str], typer.Option("--category", "-c")] = None,
     merchant: Annotated[Optional[str], typer.Option("--merchant", "-m")] = None,
@@ -82,6 +85,7 @@ def cmd_update(
         for k, v in {
             "amount": amount,
             "currency": currency,
+            "name": name,
             "date": date,
             "category": category,
             "merchant": merchant,

@@ -5,6 +5,7 @@ from .db import get_db
 def add_expense(
     amount: float,
     currency: str,
+    name: str,
     *,
     expense_date: str | None = None,
     category: str | None = None,
@@ -16,10 +17,10 @@ def add_expense(
     with get_db() as conn:
         cursor = conn.execute(
             """
-            INSERT INTO expenses (date, amount, currency, category, merchant, description, account)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO expenses (date, amount, currency, name, category, merchant, description, account)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """,
-            (expense_date, amount, currency, category, merchant, description, account),
+            (expense_date, amount, currency, name, category, merchant, description, account),
         )
         conn.commit()
         row = conn.execute(
@@ -79,6 +80,7 @@ def update_expense(id: int, **fields) -> dict | None:
         "date",
         "amount",
         "currency",
+        "name",
         "category",
         "merchant",
         "description",

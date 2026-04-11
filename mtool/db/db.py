@@ -11,6 +11,7 @@ MIGRATIONS = [
             date        TEXT NOT NULL,
             amount      REAL NOT NULL,
             currency    TEXT NOT NULL,
+            name        TEXT NOT NULL,
             category    TEXT,
             merchant    TEXT,
             description TEXT,
