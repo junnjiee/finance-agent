@@ -1,6 +1,6 @@
 ---
 name: fa-email-receipts
-description: Automatically import expenses from email receipts. Reads the user's inbox for purchase confirmations and receipts, parses them into expenses, and presents a review flow before logging. Requires Hermes or OpenClaw with an email reading skill configured.
+description: Import expenses from email receipts. Use when the user wants to find receipts in email, check email for purchases, scan inbox for receipts, or says things like "check my email for expenses", "find receipts in my inbox", or "import expenses from email".
 ---
 
 # Email Receipt Importer

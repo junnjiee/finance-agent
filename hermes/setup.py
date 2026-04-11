@@ -45,6 +45,10 @@ SKILL_META = {
         "tags": ["finance", "personal-finance", "expenses", "spending", "budget"],
         "related_skills": ["fa-onboard", "fa-analyze-cashflow", "fa-liability-tracker"],
     },
+    "fa-email-receipts": {
+        "tags": ["finance", "personal-finance", "expenses", "email", "receipts"],
+        "related_skills": ["fa-expense-tracker", "google-workspace", "himalaya"],
+    },
 }
 
 ADAPTER_NOTE = """\
@@ -282,8 +286,15 @@ def configure_hermes(data_dir: str):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Install finance-agent skills into Hermes Agent.")
-    parser.add_argument("--data-dir", dest="data_dir", default=None, help="Path to the finance-agent data directory (skips interactive prompt)")
+    parser = argparse.ArgumentParser(
+        description="Install finance-agent skills into Hermes Agent."
+    )
+    parser.add_argument(
+        "--data-dir",
+        dest="data_dir",
+        default=None,
+        help="Path to the finance-agent data directory (skips interactive prompt)",
+    )
     args = parser.parse_args()
 
     print("finance-agent → Hermes Agent setup")

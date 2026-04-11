@@ -28,6 +28,7 @@ SKILL_META = {
     "fa-analyze-cashflow": {"emoji": "📊"},
     "fa-liability-tracker": {"emoji": "📋"},
     "fa-expense-tracker": {"emoji": "🧾"},
+    "fa-email-receipts": {"emoji": "📧"},
 }
 
 ADAPTER_NOTE = """\
