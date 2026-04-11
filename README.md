@@ -51,7 +51,13 @@ I want to start using finance agent for my personal finance
 
 ### Updating
 
-Re-run `bash setup.sh --update` at any time to reinstall `mtool` and refresh skills using your saved config.
+Once set up, just run:
+
+```bash
+mtool update
+```
+
+This pulls the latest changes from GitHub and refreshes `mtool` and skills automatically. Alternatively, re-run `bash setup.sh --update` manually.
 
 ## Contributing
 
