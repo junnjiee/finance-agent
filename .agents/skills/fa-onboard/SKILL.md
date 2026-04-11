@@ -121,7 +121,7 @@ Notes:
   "income": [
     { "source": "", "amount": 0, "currency": "", "frequency": "monthly|yearly" }
   ],
-  "expenses": [
+  "planned_expenses": [
     {
       "category": "",
       "amount": 0,

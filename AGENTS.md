@@ -62,6 +62,7 @@ Personal finance is not one-size-fits-all. Everyone has different income pattern
 - Use `.venv/bin/mtool` for ticker, history, and FX lookups.
 - Use `.venv/bin/python` for any math or date computations that are easier or safer to script.
 - If `uv` or Python is unavailable, tell the user what is missing and stop until the environment can be prepared.
+- When unsure about available CLI commands, subcommands, or their inputs, run the command with `--help` first. Prefer `--help` over guessing flags or argument order.
 
 ## Pitfalls
 
@@ -102,6 +103,7 @@ These are the built-in skills that you can use to help your user with their pers
 | `fa-net-worth`         | Net worth, account summaries, allocations, and performance     | Value assets with stored balances and live pricing, then present portfolio views                     |
 | `fa-analyze-cashflow`  | Cashflow, savings rate, burn rate, runway analysis             | Choose savings/runway/breakeven mode and based on monthly inflow vs outflow and present related data |
 | `fa-liability-tracker` | Adding, updating, removing, or reviewing recurring liabilities | Maintain recurring obligations, due-date logic, and liability burden summaries                       |
+| `fa-expense-tracker`   | Logging, editing, deleting, and analyzing individual expenses  | CRUD expenses via CLI, category/merchant inference, monthly summaries, trends, and budget comparison |
 
 ## Output Rules
 

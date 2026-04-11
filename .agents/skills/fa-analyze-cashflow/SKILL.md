@@ -31,7 +31,27 @@ Normalize all income in `data/cashflow.json` to monthly values.
 
 ### Outflow
 
-In general, outflow should be `expenses + recurring liabilities`
+In general, outflow should be `actual expenses (or planned fallback) + recurring liabilities`
+
+#### Expense data source selection
+
+Before calculating outflow, determine whether enough actual expense data exists:
+
+1. Query the expense database: `mtool expenses list --limit 1` to check if any records exist, then check the earliest and latest dates
+2. **Use actual expenses** if the database contains at least one complete prior calendar month of data (i.e. there is a month, before the current one, where the user recorded expenses)
+3. **Fall back to `planned_expenses`** from `cashflow.json` if actual data is insufficient
+
+When using actual expenses:
+- Use the most recent complete calendar month as the representative monthly outflow
+- Run `mtool expenses list --from YYYY-MM-01 --to YYYY-MM-31` for that month
+- Convert all amounts to `base_currency` using `.venv/bin/mtool fx` before summing
+- Label the outflow figure clearly: *"based on actual expenses (Month YYYY)"*
+- Note any categories in `planned_expenses` that have no matching actual spend, in case they were simply not logged
+
+When using planned expenses:
+- Read from the `planned_expenses` array in `cashflow.json` (not `expenses` — that key was renamed)
+- Normalize all amounts to monthly values
+- Label the outflow figure clearly: *"based on planned expenses (no sufficient actual data yet)"*
 
 Separate liabilities by frequency when calculating outflow. If user has specific preferences, override this rule:
 
