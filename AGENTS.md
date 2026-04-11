@@ -78,6 +78,11 @@ These are known failure modes. Apply them globally, regardless of which skill is
 
 - Do not silently guess missing exchange rates, liability balances, or ticker symbols. Surface uncertainty to the user explicitly.
 
+### Expense Questions Without Checking Logged Data
+
+- Any question about expenses — what was spent, when, on what, how much — requires fetching the logged expenses first: `mtool expenses list`.
+- Never answer from memory or context alone. Logged expenses are the source of truth.
+
 ## Market Data Caching
 
 - Cache ticker prices and exchange rates within the same conversation.
@@ -96,14 +101,14 @@ These are known failure modes. Apply them globally, regardless of which skill is
 
 These are the built-in skills that you can use to help your user with their personal finance management. If there is a need for a skill that doesn't exist, create it for your user.
 
-| Skill                  | Use for                                                        | Skill Description                                                                                    |
-| ---------------------- | -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `fa-onboard`           | Initial setup or missing data files                            | Collect baseline finance data and create or update the core JSON files in the data directory         |
-| `fa-net-worth`         | Net worth, account summaries, allocations, and performance     | Value assets with stored balances and live pricing, then present portfolio views                     |
-| `fa-analyze-cashflow`  | Cashflow, savings rate, burn rate, runway analysis             | Choose savings/runway/breakeven mode and based on monthly inflow vs outflow and present related data |
-| `fa-liability-tracker` | Adding, updating, removing, or reviewing recurring liabilities | Maintain recurring obligations, due-date logic, and liability burden summaries                       |
-| `fa-expense-tracker`   | Logging, editing, deleting, and analyzing individual expenses  | CRUD expenses via CLI, category/merchant inference, monthly summaries, trends, and budget comparison |
-| `fa-email-receipts`    | Auto-importing expenses from email receipts (Hermes/OpenClaw only) | Read inbox for receipts, deduplicate by email ID, review-then-confirm flow before logging |
+| Skill                  | Use for                                                            | Skill Description                                                                                    |
+| ---------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| `fa-onboard`           | Initial setup or missing data files                                | Collect baseline finance data and create or update the core JSON files in the data directory         |
+| `fa-net-worth`         | Net worth, account summaries, allocations, and performance         | Value assets with stored balances and live pricing, then present portfolio views                     |
+| `fa-analyze-cashflow`  | Cashflow, savings rate, burn rate, runway analysis                 | Choose savings/runway/breakeven mode and based on monthly inflow vs outflow and present related data |
+| `fa-liability-tracker` | Adding, updating, removing, or reviewing recurring liabilities     | Maintain recurring obligations, due-date logic, and liability burden summaries                       |
+| `fa-expense-tracker`   | Logging, editing, deleting, and analyzing individual expenses      | CRUD expenses via CLI, category/merchant inference, monthly summaries, trends, and budget comparison |
+| `fa-email-receipts`    | Auto-importing expenses from email receipts (Hermes/OpenClaw only) | Read inbox for receipts, deduplicate by email ID, review-then-confirm flow before logging            |
 
 ## Output Rules
 

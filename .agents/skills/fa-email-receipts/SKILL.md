@@ -50,13 +50,38 @@ If the email skill is not available or not configured, stop here and tell the us
 
 ## Step 2 — Deduplicate Against Existing Expenses
 
-Before parsing, determine which emails have already been imported:
+**IMPORTANT: You MUST run this command now before proceeding. Do not skip it.**
 
 ```
 mtool expenses list --limit 100
 ```
 
-Extract all `email_id` values from the returned expenses. Any incoming email whose message ID matches an existing `email_id` should be silently skipped — it has already been logged.
+From the returned expenses, build two lookup structures:
+
+1. **email_id set** — collect all `email_id` values. Any incoming email whose message ID matches should be silently skipped — already imported.
+2. **fuzzy match index** — for each expense without an `email_id`, index it by `(merchant_normalized, amount, date)` for use in Step 2b.
+
+You also need this expense history to infer categories in Step 3 — this single call covers all needs. Run it now.
+
+## Step 2b — Fuzzy-Match Receipts to Existing Expenses
+
+After parsing each receipt (Step 3), check whether it likely corresponds to an already-logged expense that is just missing an `email_id`. A receipt is a fuzzy match if **all three** align:
+
+- **Merchant** — normalized names are the same or clearly refer to the same business (e.g. "Grab" vs "GRAB TRANSPORT")
+- **Amount** — exact match
+- **Date** — within ±2 days
+
+If a fuzzy match is found:
+
+- Do **not** create a new expense
+- Instead, patch the `email_id` onto the existing expense:
+  ```
+  mtool expenses update <id> --email-id <email_id>
+  ```
+  Run `mtool expenses update --help` first if you are unsure of the flag name.
+- Note this in the review table as: `↩ Linked to existing expense #<id>`
+
+If `mtool expenses update` does not support setting `email_id` directly, read the expense record, add the field, and write it back.
 
 ## Step 3 — Parse Receipts
 
@@ -71,12 +96,6 @@ For each remaining candidate email, extract:
 - `notes` — optional: brief description (e.g. order number, item summary) — keep short
 
 ### Category Inference
-
-Query the user's recent expense history to build a merchant→category map:
-
-```
-mtool expenses list --limit 100
-```
 
 Apply the same inference rules as `fa-expense-tracker`:
 
@@ -108,6 +127,7 @@ Found 3 new receipts. Review before importing:
 3. Netflix — USD 15.98 — 2026-04-07
    Category: subscriptions
 
+↩ Linked email_id to existing expense #42 (Grab — SGD 8.00 — 2026-04-08, already logged)
 ⚠ 1 email looked like a receipt but could not be parsed (2026-04-06, subject: "Receipt from...")
 ⏭ Skipped 2 already-imported receipts.
 
