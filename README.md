@@ -33,7 +33,7 @@ Fetch live prices using a dedicated CLI tool, run spending simulations, ask for 
 1. **Clone the repo and run setup**
 
    ```bash
-   git clone <repo-url>
+   git clone https://github.com/junnjiee/finance-agent.git
    cd finance-agent
    bash setup.sh
    ```
@@ -43,8 +43,7 @@ Fetch live prices using a dedicated CLI tool, run spending simulations, ask for 
    - Prompt for your data directory (default: `~/.config/finance_agent/data/`)
    - Ask which harnesses you use and configure each one
 
-3. **Start using it**
-
+2. **Start using it**
    - **Coding harnesses**: open your harness in the project directory and say hi, or run `/fa-onboard`
    - **OpenClaw / Hermes**: tell it `I want to start using finance agent`
 
