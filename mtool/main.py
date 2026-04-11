@@ -47,9 +47,10 @@ def update():
     print(f"Pulling latest changes from GitHub ({repo_root})...")
     result = subprocess.run(
         ["git", "-C", str(repo_root), "pull"],
-        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        capture_output=True, text=True,
     )
     pull_failed = result.returncode != 0
+    already_up_to_date = "Already up to date." in result.stdout
 
     if has_changes:
         print("Restoring stashed changes...")
@@ -61,6 +62,10 @@ def update():
     if pull_failed:
         print("git pull failed.")
         raise typer.Exit(1)
+
+    if already_up_to_date:
+        print("Already up to date.")
+        return
 
     print("\nRefreshing mtool and skills...")
     result = subprocess.run(
