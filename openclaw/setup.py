@@ -32,6 +32,7 @@ ADAPTER_NOTE = """\
 > directory set in `FINANCE_AGENT_DATA_DIR` (injected via OpenClaw's skill entry
 > config). For example, `data/profile.json` becomes `$FINANCE_AGENT_DATA_DIR/profile.json`.
 > Use `mtool` directly — it is installed globally. No `uv sync` step is needed.
+> If the user is chatting in a messaging app, markdown is usually not supported — do not use markdown tables there.
 """
 
 

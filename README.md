@@ -38,7 +38,7 @@ Open your coding harness in the project directory and run `/fa-onboard` to get s
 
 ### Getting Started with OpenClaw
 
-You can send OpenClaw the link to this repo and get it to set up for you.
+You can send OpenClaw the link to this repo and get it to set up for you. After setup, start just tell your Claw: `I want to start using finance agent`
 
 #### Prerequisites
 
@@ -75,7 +75,7 @@ Re-run `bash openclaw/setup.sh` at any time to update the installed skills or po
 
 ### Getting Started with Hermes Agent
 
-You can send Hermes the link to this repo and get it to set up for you.
+You can send Hermes the link to this repo and get it to set up for you. After setup, start just tell Hermes: `I want to start using finance agent`
 
 #### Prerequisites
 

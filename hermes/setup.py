@@ -41,6 +41,7 @@ ADAPTER_NOTE = """\
 > **Hermes adapter note:** All `data/` path references below should be resolved
 > using the `finance_agent.data_dir` value from the skill config injected above.
 > Use `mtool` directly — it is installed globally. No `uv sync` step is needed.
+> If the user is chatting in a messaging app, markdown is usually not supported — do not use markdown tables there.
 """
 
 
