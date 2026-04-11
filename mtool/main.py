@@ -69,11 +69,10 @@ def update():
     if already_up_to_date:
         console.print("Already up to date.")
 
-    with console.status("Reinstalling mtool and refreshing skills..."):
-        result = subprocess.run(
-            [sys.executable, str(repo_root / "setup.py"), "--update"],
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-        )
+    console.print("\nReinstalling mtool and refreshing skills...")
+    result = subprocess.run(
+        [sys.executable, str(repo_root / "setup.py"), "--update"],
+    )
     if result.returncode != 0:
         console.print("[red]Setup refresh failed.[/red]")
         raise typer.Exit(1)
