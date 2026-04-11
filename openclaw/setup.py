@@ -34,8 +34,12 @@ ADAPTER_NOTE = """\
 > **OpenClaw adapter note:** When instructions refer to "the data directory", use
 > the value of `FINANCE_AGENT_DATA_DIR` (injected via OpenClaw's skill entry config).
 > Use `mtool` directly — it is installed globally. No `uv sync` step is needed.
-> If the user is messaging via a chat app (Telegram, WhatsApp, Signal, iMessage, etc.),
-> use no markdown formatting and no markdown tables. Use emojis where appropriate.
+>
+> **Output formatting:** Check the injected platform context.
+> If the platform is a messaging app (Telegram, WhatsApp, Signal, iMessage, or similar),
+> never use markdown tables — present tabular data as labeled lines (e.g. "Net worth: $120,000")
+> or bullet lists instead. In a terminal or markdown-rendering environment, tables are fine.
+> Use emojis where appropriate.
 """
 
 
