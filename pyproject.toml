@@ -1,7 +1,7 @@
 [project]
 name = "finance_agent"
 version = "0.1.0"
-description = "Turn AI agents into your personal financial assistant"
+description = "CLI built around finance_agent"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
@@ -21,4 +21,4 @@ build-backend = "hatchling.build"
 packages = ["mtool"]
 
 [project.scripts]
-mtool = "mtool.cli:app"
+mtool = "mtool.main:app"
