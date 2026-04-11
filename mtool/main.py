@@ -4,6 +4,9 @@ import sys
 from pathlib import Path
 
 import typer
+from rich.console import Console
+
+console = Console()
 
 from mtool import expenses
 from mtool import market
@@ -35,46 +38,48 @@ def update():
     has_changes = bool(status.stdout.strip())
 
     if has_changes:
-        print("Stashing local changes...")
-        stash = subprocess.run(
-            ["git", "-C", str(repo_root), "stash"],
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-        )
+        with console.status("Stashing local changes..."):
+            stash = subprocess.run(
+                ["git", "-C", str(repo_root), "stash"],
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+            )
         if stash.returncode != 0:
-            print("Failed to stash changes.")
+            console.print("[red]Failed to stash changes.[/red]")
             raise typer.Exit(1)
 
-    print(f"Pulling latest changes from GitHub ({repo_root})...")
-    result = subprocess.run(
-        ["git", "-C", str(repo_root), "pull"],
-        capture_output=True, text=True,
-    )
+    with console.status("Pulling latest changes from GitHub..."):
+        result = subprocess.run(
+            ["git", "-C", str(repo_root), "pull"],
+            capture_output=True, text=True,
+        )
     pull_failed = result.returncode != 0
     already_up_to_date = "Already up to date." in result.stdout
 
     if has_changes:
-        print("Restoring stashed changes...")
-        subprocess.run(
-            ["git", "-C", str(repo_root), "stash", "pop"],
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-        )
+        with console.status("Restoring stashed changes..."):
+            subprocess.run(
+                ["git", "-C", str(repo_root), "stash", "pop"],
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+            )
 
     if pull_failed:
-        print("git pull failed.")
+        console.print("[red]git pull failed.[/red]")
         raise typer.Exit(1)
 
     if already_up_to_date:
-        print("Already up to date.")
+        console.print("Already up to date.")
         return
 
-    print("\nRefreshing mtool and skills...")
-    result = subprocess.run(
-        [sys.executable, str(repo_root / "setup.py"), "--update"],
-        text=True,
-    )
+    with console.status("Reinstalling mtool and refreshing skills..."):
+        result = subprocess.run(
+            [sys.executable, str(repo_root / "setup.py"), "--update"],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        )
     if result.returncode != 0:
-        print("Setup refresh failed.")
+        console.print("[red]Setup refresh failed.[/red]")
         raise typer.Exit(1)
+
+    console.print("[green]Done.[/green]")
 
 
 if __name__ == "__main__":
