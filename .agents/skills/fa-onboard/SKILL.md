@@ -14,27 +14,39 @@ Resolve the data directory before any file operations: use `FINANCE_AGENT_DATA_D
 ## Working Style
 
 - Read any existing files in the data directory before asking questions so you do not overwrite information the user already provided.
-- Always go step by step with the user. Collect one section at a time, wait for their response, then move to the next.
+- **One step at a time, no exceptions.** Send one message per step. Wait for the user's reply before advancing. Never ask multiple sections in one message.
 - Accept natural language input. Do not force a rigid template unless the user asks for one.
 - Keep a running summary of what has been captured so far.
 - Before writing files, show the full summary and get explicit confirmation.
 
-## Recommended Flow
+## Onboarding Flow
 
-Collect the following in order, skipping sections if they are not relevant to the user:
+Work through these steps strictly in order. Each step is a single message. Do not move to the next step until the user has replied to the current one.
 
-1. **Overview**
-   Explain briefly what you track, that the data stays local as JSON in the data directory, and that you are going to collect the minimum needed to get started.
-2. **Profile**
-   Capture the user's base currency, currency symbol if they care about one
-3. **Assets**
-   Capture the assets that matter for net worth and planning: cash, savings, investments, and any other material assets.
-4. **Cashflow**
-   Capture recurring income and recurring investment contributions if the user tracks them separately.
-5. **Liabilities**
-   Capture recurring obligations such as subscriptions, insurance, and loan repayments.
-6. **Goals**
-   Capture any financial goals with target amounts and dates.
+**Step 1 — Welcome**
+Greet the user warmly. Briefly explain what you can help with: tracking net worth and assets, cashflow and savings rate, recurring liabilities, and financial goals — all stored locally as JSON files. Also mention that individual expenses are tracked separately in a local database. Tell them how many steps there are (6) and that they can skip any section. Ask if they are ready to begin.
+
+**Step 2 — Profile**
+Ask for their base currency (and symbol if they want one). Nothing else.
+
+**Step 3 — Assets**
+Before collecting assets, briefly explain the two tracking styles so the user can choose what fits each asset:
+- **Units-based**: store the ticker symbol and number of units (e.g. 10 shares of AAPL). The assistant prices these automatically using live market data, so the value always stays current.
+- **Balance-based**: store a manually maintained balance (e.g. a savings account or property value). The user updates this number when it changes.
+
+Recommend units-based for stocks, ETFs, and crypto; balance-based for cash, savings, and property. Then ask about their assets one at a time — cash, savings, investments, property, crypto, or other material assets. After each one, ask if there are more before continuing.
+
+**Step 4 — Cashflow**
+Ask about recurring income (salary, freelance, rental, etc.). Capture source, amount, currency, and frequency. After income, ask if they track recurring investment contributions separately.
+
+**Step 5 — Liabilities**
+Ask about recurring obligations: subscriptions, insurance premiums, loan repayments. Same approach — one at a time, then ask if there are more.
+
+**Step 6 — Goals**
+Ask if they have any financial goals (e.g. emergency fund, home purchase, retirement). Collect name, target amount, currency, and target date if known.
+
+**Step 7 — Review & Write**
+Show a full summary of everything captured. Call out any assumptions or gaps. Ask for explicit confirmation before writing files.
 
 ## Data Collection Rules
 
