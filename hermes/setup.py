@@ -41,6 +41,10 @@ SKILL_META = {
         "tags": ["finance", "personal-finance", "liabilities", "subscriptions"],
         "related_skills": ["fa-onboard", "fa-analyze-cashflow", "fa-net-worth"],
     },
+    "fa-expense-tracker": {
+        "tags": ["finance", "personal-finance", "expenses", "spending", "budget"],
+        "related_skills": ["fa-onboard", "fa-analyze-cashflow", "fa-liability-tracker"],
+    },
 }
 
 ADAPTER_NOTE = """\
