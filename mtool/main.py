@@ -38,21 +38,24 @@ def update():
         print("Stashing local changes...")
         stash = subprocess.run(
             ["git", "-C", str(repo_root), "stash"],
-            capture_output=True, text=True,
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
         )
         if stash.returncode != 0:
             print("Failed to stash changes.")
             raise typer.Exit(1)
 
     print(f"Pulling latest changes from GitHub ({repo_root})...")
-    result = subprocess.run(["git", "-C", str(repo_root), "pull"], capture_output=True, text=True)
+    result = subprocess.run(
+        ["git", "-C", str(repo_root), "pull"],
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+    )
     pull_failed = result.returncode != 0
 
     if has_changes:
         print("Restoring stashed changes...")
         subprocess.run(
             ["git", "-C", str(repo_root), "stash", "pop"],
-            capture_output=True, text=True,
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
         )
 
     if pull_failed:
