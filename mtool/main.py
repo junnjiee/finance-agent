@@ -27,9 +27,29 @@ def update():
         print(f"Repo not found at {repo_root}. Re-run bash setup.sh to reconfigure.")
         raise typer.Exit(1)
 
+    # Check for uncommitted changes
+    status = subprocess.run(
+        ["git", "-C", str(repo_root), "status", "--porcelain"],
+        capture_output=True, text=True,
+    )
+    has_changes = bool(status.stdout.strip())
+
+    if has_changes:
+        print("Stashing local changes...")
+        stash = subprocess.run(["git", "-C", str(repo_root), "stash"], text=True)
+        if stash.returncode != 0:
+            print("Failed to stash changes.")
+            raise typer.Exit(1)
+
     print(f"Pulling latest changes from GitHub ({repo_root})...")
     result = subprocess.run(["git", "-C", str(repo_root), "pull"], text=True)
-    if result.returncode != 0:
+    pull_failed = result.returncode != 0
+
+    if has_changes:
+        print("Restoring stashed changes...")
+        subprocess.run(["git", "-C", str(repo_root), "stash", "pop"], text=True)
+
+    if pull_failed:
         print("git pull failed.")
         raise typer.Exit(1)
 
