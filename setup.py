@@ -188,7 +188,6 @@ def main():
             sys.exit(1)
 
     run_harnesses(data_dir, selected)
-    print("\nDone.")
 
 
 if __name__ == "__main__":
