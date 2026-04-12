@@ -11,6 +11,7 @@ def add_split(
     split_type: str,
     *,
     split_date: str | None = None,
+    description: str | None = None,
 ) -> dict:
     if split_type not in VALID_SPLIT_TYPES:
         raise ValueError(
@@ -20,10 +21,10 @@ def add_split(
     with get_db() as conn:
         cursor = conn.execute(
             """
-            INSERT INTO splits (name, date, total_amount, currency, split_type)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO splits (name, date, total_amount, currency, split_type, description)
+            VALUES (?, ?, ?, ?, ?, ?)
             """,
-            (name, split_date, total_amount, currency, split_type),
+            (name, split_date, total_amount, currency, split_type, description),
         )
         conn.commit()
         row = conn.execute(
@@ -170,6 +171,29 @@ def update_participant(participant_id: int, **fields) -> dict | None:
             "SELECT * FROM split_participants WHERE id = ?", (participant_id,)
         ).fetchone()
         return dict(row) if row else None
+
+
+def update_split(split_id: int, **fields) -> dict | None:
+    allowed = {"name", "date", "total_amount", "currency", "split_type", "description"}
+    updates = [(k, v) for k, v in fields.items() if k in allowed]
+    if not updates:
+        return None
+    set_clause = ", ".join(f"{k} = ?" for k, _ in updates)
+    params = [v for _, v in updates] + [split_id]
+    with get_db() as conn:
+        conn.execute(f"UPDATE splits SET {set_clause} WHERE id = ?", params)
+        conn.commit()
+        row = conn.execute("SELECT * FROM splits WHERE id = ?", (split_id,)).fetchone()
+        return dict(row) if row else None
+
+
+def delete_participant(participant_id: int) -> bool:
+    with get_db() as conn:
+        cursor = conn.execute(
+            "DELETE FROM split_participants WHERE id = ?", (participant_id,)
+        )
+        conn.commit()
+        return cursor.rowcount > 0
 
 
 def delete_split(split_id: int) -> bool:

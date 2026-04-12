@@ -6,11 +6,13 @@ import typer
 from mtool.db.splits import (
     add_participant,
     add_split,
+    delete_participant,
     delete_split,
     get_balance,
     get_split,
     list_splits,
     update_participant,
+    update_split,
 )
 
 app = typer.Typer(help="Track shared expenses and what others owe you.")
@@ -29,6 +31,10 @@ def cmd_add(
         Optional[str],
         typer.Option("--date", "-d", help="Date (YYYY-MM-DD). Defaults to today."),
     ] = None,
+    description: Annotated[
+        Optional[str],
+        typer.Option("--description", help="Optional description or note."),
+    ] = None,
 ):
     """Create a new split expense."""
     try:
@@ -38,6 +44,7 @@ def cmd_add(
             currency,
             split_type,
             split_date=date,
+            description=description,
         )
     except ValueError as e:
         typer.echo(str(e), err=True)
@@ -116,6 +123,39 @@ def cmd_balance(
     typer.echo(json.dumps(rows, indent=2))
 
 
+@app.command("edit")
+def cmd_edit(
+    split_id: Annotated[int, typer.Argument(help="Split ID to edit")],
+    name: Annotated[Optional[str], typer.Option("--name", "-n")] = None,
+    total_amount: Annotated[Optional[float], typer.Option("--total")] = None,
+    currency: Annotated[Optional[str], typer.Option("--currency")] = None,
+    split_type: Annotated[Optional[str], typer.Option("--split-type")] = None,
+    date: Annotated[Optional[str], typer.Option("--date", "-d")] = None,
+    description: Annotated[Optional[str], typer.Option("--description")] = None,
+):
+    """Update fields on a split."""
+    fields = {
+        k: v
+        for k, v in {
+            "name": name,
+            "total_amount": total_amount,
+            "currency": currency,
+            "split_type": split_type,
+            "date": date,
+            "description": description,
+        }.items()
+        if v is not None
+    }
+    if not fields:
+        typer.echo("No fields to update.", err=True)
+        raise typer.Exit(1)
+    row = update_split(split_id, **fields)
+    if row is None:
+        typer.echo(f"No split found with id {split_id}.", err=True)
+        raise typer.Exit(1)
+    typer.echo(json.dumps(row, indent=2))
+
+
 @app.command("edit-participant")
 def cmd_edit_participant(
     participant_id: Annotated[int, typer.Argument(help="Participant ID to edit")],
@@ -143,6 +183,23 @@ def cmd_edit_participant(
         typer.echo(f"No participant found with id {participant_id}.", err=True)
         raise typer.Exit(1)
     typer.echo(json.dumps(row, indent=2))
+
+
+@app.command("delete-participant")
+def cmd_delete_participant(
+    participant_id: Annotated[int, typer.Argument(help="Participant ID to delete")],
+    yes: Annotated[
+        bool, typer.Option("--yes", "-y", help="Skip confirmation prompt")
+    ] = False,
+):
+    """Delete a participant from a split."""
+    if not yes:
+        typer.confirm(f"Delete participant {participant_id}?", abort=True)
+    deleted = delete_participant(participant_id)
+    if not deleted:
+        typer.echo(f"No participant found with id {participant_id}.", err=True)
+        raise typer.Exit(1)
+    typer.echo(f"Deleted participant {participant_id}.")
 
 
 @app.command("delete")

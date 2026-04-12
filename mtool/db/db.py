@@ -28,6 +28,7 @@ MIGRATIONS = [
             total_amount    REAL NOT NULL,
             currency        TEXT NOT NULL,
             split_type      TEXT NOT NULL,
+            description     TEXT,
             created_at      TEXT NOT NULL DEFAULT (datetime('now'))
         )
     """,
