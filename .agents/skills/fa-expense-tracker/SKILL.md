@@ -50,17 +50,14 @@ Use this data to:
 - Normalize all categories to lowercase before storing
 - Never silently introduce a new category variant — if in doubt, ask
 
-**Default behavior (confirm-after):**
+**Default behavior:**
 
 1. Infer category and merchant from context and prior data
-2. Write the expense immediately
-3. After writing, confirm what was inferred: _"Logged $45 SGD to Grab under 'transport' on 2026-04-11. Correct?"_
-4. If the user corrects it, run `update` immediately
+2. Show the full details of the expense you are about to log in a table (date, amount, currency, merchant, category, notes if any)
+3. Ask for confirmation before writing
+4. On confirmation, run `add`; on correction, apply the change and re-show before writing
 
-**Confirm-before behavior** (when `expense_confirm_before_write: true`):
-
-1. Infer category and merchant
-2. Show what you plan to write and ask for confirmation before running `add`
+**Confirm-before behavior** (when `expense_confirm_before_write: true`): same as default — always show and confirm before writing.
 
 **When to ask inline regardless of preference:**
 
