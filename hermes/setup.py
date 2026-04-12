@@ -62,7 +62,7 @@ ADAPTER_NOTE = """\
 > This overrides any skill instruction that says to use tables.
 > Do NOT use markdown tables, labeled lines, or any other table-like format on messaging platforms — bullet lists only.
 > On messaging platforms, you MUST use emojis — this is not optional.
-> Every section header must start with a relevant emoji. Every bullet point must start with an emoji marker.
+> Every section header must start with a relevant emoji.
 > Use emojis as visual separators between sections. Numbers, amounts, and key values should be paired with a contextual emoji.
 > In a terminal or markdown-rendering environment, tables are fine and emojis are optional.
 """
