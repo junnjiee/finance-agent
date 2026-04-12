@@ -16,11 +16,10 @@ MIGRATIONS = [
             merchant    TEXT,
             description TEXT,
             account     TEXT,
+            email_id    TEXT UNIQUE,
             created_at  TEXT NOT NULL DEFAULT (datetime('now'))
         )
     """,
-    "ALTER TABLE expenses ADD COLUMN email_id TEXT",
-    "CREATE UNIQUE INDEX IF NOT EXISTS idx_expenses_email_id ON expenses(email_id) WHERE email_id IS NOT NULL",
     """
         CREATE TABLE IF NOT EXISTS splits (
             id              INTEGER PRIMARY KEY,
