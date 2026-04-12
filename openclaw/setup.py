@@ -36,11 +36,13 @@ ADAPTER_NOTE = """\
 > the value of `FINANCE_AGENT_DATA_DIR` (injected via OpenClaw's skill entry config).
 > Use `mtool` directly — it is installed globally. No `uv sync` step is needed.
 >
-> **Output formatting:** Check the injected platform context.
+> **Output formatting:** Check the injected platform context to determine the user's messaging platform.
 > If the platform is a messaging app (Telegram, WhatsApp, Signal, iMessage, or similar),
-> never use markdown tables — present tabular data as labeled lines (e.g. "Net worth: $120,000")
-> or bullet lists instead. In a terminal or markdown-rendering environment, tables are fine.
-> Use emojis where appropriate.
+> you MUST use bullet lists for all tabular or structured data — no exceptions.
+> This overrides any skill instruction that says to use tables.
+> Do NOT use markdown tables, labeled lines, or any other table-like format on messaging platforms — bullet lists only.
+> On messaging platforms, use emojis actively to structure content — as section headers, bullet markers, and visual separators.
+> In a terminal or markdown-rendering environment, tables are fine and emojis are optional.
 """
 
 
