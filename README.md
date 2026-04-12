@@ -23,6 +23,8 @@ Check portfolio performance, track expenses, run spending simulations, ask it wh
 
 ## Get Started
 
+You can ask your OpenClaw/Hermes Agent to set this up for you!
+
 ### Prerequisites
 
 - [`uv`](https://docs.astral.sh/uv/) installed
