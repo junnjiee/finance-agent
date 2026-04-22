@@ -9,7 +9,7 @@ def iter_skills() -> list[tuple[str, str]]:
     root = files("mtool.skills")
     results = []
     for entry in root.iterdir():
-        if entry.is_dir():
+        if entry.is_dir() and (entry / "SKILL.md").is_file():
             content = (entry / "SKILL.md").read_text(encoding="utf-8")
             results.append((entry.name, content))
     return sorted(results)
