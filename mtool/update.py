@@ -19,7 +19,7 @@ def update():
 
     print("Updating mtool...")
     result = subprocess.run(
-        [uv, "tool", "upgrade", "finance_agent"],
+        [uv, "tool", "install", "--force", GITHUB_REPO],
         capture_output=True,
         text=True,
     )
