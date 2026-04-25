@@ -1,8 +1,8 @@
-# Finance Agent
+# Plutus
 
 **Your personal finance, managed through ~forms and dashboards~ conversation. Works with Hermes Agent.**
 
-Personal finance apps make you fit their boxes. Fixed categories, manual updates, rigid workflows. Finance Agent flips it: just _talk_ about your money and it handles the rest.
+Personal finance apps make you fit their boxes. Fixed categories, manual updates, rigid workflows. Plutus flips it: just _talk_ about your money and it handles the rest.
 
 ```
 > What's my investment portfolio looking like?
@@ -23,7 +23,7 @@ Check portfolio performance, track expenses, run spending simulations, ask it wh
 ### Installation
 
 ```bash
-uv tool install git+https://github.com/junnjiee/finance-agent.git
+uv tool install git+https://github.com/junnjiee/plutus.git
 ```
 
 ### Setup
@@ -36,14 +36,14 @@ plutus setup hermes
 
 Or run `plutus setup` to be guided through the process.
 
-By default, finance data is stored in `~/.config/finance_agent/data/`. To use a custom location, set the `FINANCE_AGENT_DATA_DIR` environment variable.
+By default, finance data is stored in `~/.config/plutus/data/`. To use a custom location, set the `PLUTUS_DATA_DIR` environment variable.
 
 ### Start using it
 
 Just tell Hermes:
 
 ```
-I want to start using finance agent for my personal finance
+I want to start using plutus for my personal finance
 ```
 
 ### Updating

@@ -9,7 +9,7 @@ Use this skill to set up a user's local finance data for the first time.
 
 ## Data Directory
 
-Resolve the data directory before any file operations: use `FINANCE_AGENT_DATA_DIR` if set, otherwise `~/.config/finance_agent/data/`. Create it if it does not exist.
+Resolve the data directory before any file operations: use `PLUTUS_DATA_DIR` if set, otherwise `~/.config/plutus/data/`. Create it if it does not exist.
 
 ## Working Style
 

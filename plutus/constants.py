@@ -57,7 +57,7 @@ HERMES_META: dict[str, dict] = {
 
 HERMES_ADAPTER_NOTE = """\
 > **Hermes adapter note:** When instructions refer to "the data directory", use
-> the `finance_agent.data_dir` value in your config.yaml.
+> the `plutus.data_dir` value in your config.yaml.
 >
 > **Output formatting:** Check the injected platform context to determine the user's messaging platform.
 > If the platform is a messaging app (Telegram, WhatsApp, Signal, iMessage, or similar),

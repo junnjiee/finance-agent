@@ -12,7 +12,7 @@ Use this skill to manage and analyze individual expenses. It covers two responsi
 
 ## Load Context
 
-Resolve the data directory first: use `FINANCE_AGENT_DATA_DIR` if set, otherwise `~/.config/finance_agent/data/`.
+Resolve the data directory first: use `PLUTUS_DATA_DIR` if set, otherwise `~/.config/plutus/data/`.
 
 - Read `profile.json` to load `base_currency`, `currency_symbol`, and any expense-related preferences
 - The handling of expense data can be managed through `plutus`,

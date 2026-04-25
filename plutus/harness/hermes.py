@@ -1,4 +1,4 @@
-"""Hermes Agent harness — transform and install finance-agent skills."""
+"""Hermes Agent harness — transform and install plutus skills."""
 
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ def _extra_frontmatter(skill_name: str, data_dir: str) -> str:
     related = "[" + ", ".join(f'"{s}"' for s in meta["related_skills"]) + "]"
     return (
         f"version: 0.7.0\n"
-        f"author: finance-agent\n"
+        f"author: plutus\n"
         f"license: MIT\n"
         f"prerequisites:\n"
         f"  commands: [plutus]\n"
@@ -27,10 +27,10 @@ def _extra_frontmatter(skill_name: str, data_dir: str) -> str:
         f"    tags: {tags}\n"
         f"    related_skills: {related}\n"
         f"    config:\n"
-        f"      - key: finance_agent.data_dir\n"
-        f"        description: Absolute path to the finance-agent data directory\n"
+        f"      - key: plutus.data_dir\n"
+        f"        description: Absolute path to the plutus data directory\n"
         f'        default: "{data_dir}"\n'
-        f"        prompt: Where is your finance-agent data directory?\n"
+        f"        prompt: Where is your plutus data directory?\n"
     )
 
 
@@ -44,7 +44,7 @@ def _transform(content: str, skill_name: str, data_dir: str) -> str:
 
 
 def _configure(data_dir: str, hermes_home: Path):
-    """Update ~/.hermes/config.yaml with finance_agent.data_dir."""
+    """Update ~/.hermes/config.yaml with plutus.data_dir."""
     config_path = hermes_home / "config.yaml"
     if not config_path.exists():
         raise FileNotFoundError(f"Hermes config not found at {config_path}")
@@ -52,21 +52,21 @@ def _configure(data_dir: str, hermes_home: Path):
     existing = config_path.read_text()
     quoted = f'"{data_dir}"'
 
-    if "finance_agent" in existing:
+    if "plutus" in existing:
         updated = re.sub(
-            r"(finance_agent:\s*\n\s*data_dir:\s*).*",
+            r"(plutus:\s*\n\s*data_dir:\s*).*",
             f"\\1{quoted}",
             existing,
         )
         if updated != existing:
             config_path.write_text(updated)
-            print(f"  updated    finance_agent.data_dir → {data_dir}")
+            print(f"  updated    plutus.data_dir → {data_dir}")
     else:
-        fa_block = f"  config:\n    finance_agent:\n      data_dir: {quoted}\n"
+        fa_block = f"  config:\n    plutus:\n      data_dir: {quoted}\n"
         # Try inserting under existing config: key
         updated = re.sub(
             r"(^  config\s*:[ \t]*\n)",
-            r"\1" + f"    finance_agent:\n      data_dir: {quoted}\n",
+            r"\1" + f"    plutus:\n      data_dir: {quoted}\n",
             existing,
             count=1,
             flags=re.MULTILINE,
@@ -82,11 +82,11 @@ def _configure(data_dir: str, hermes_home: Path):
             )
         if updated == existing:
             raise RuntimeError(
-                f"Could not inject finance_agent config into {config_path}. "
+                f"Could not inject plutus config into {config_path}. "
                 "Expected a 'skills:' section."
             )
         config_path.write_text(updated)
-        print(f"  installed  finance_agent.data_dir → {data_dir}")
+        print(f"  installed  plutus.data_dir → {data_dir}")
 
 
 def install(data_dir: str, hermes_home: Path | None = None):
@@ -98,7 +98,7 @@ def install(data_dir: str, hermes_home: Path | None = None):
         print(f"Hermes not found at {hermes_home}. Install Hermes Agent first.")
         return False
 
-    skills_dir = hermes_home / "skills" / "finance_agent"
+    skills_dir = hermes_home / "skills" / "plutus"
     print(f"\nInstalling skills to {skills_dir} ...")
 
     installed, updated, unchanged = [], [], []

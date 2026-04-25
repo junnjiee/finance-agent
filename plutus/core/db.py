@@ -46,10 +46,10 @@ MIGRATIONS = [
 
 
 def _db_path() -> Path:
-    default = Path.home() / ".config" / "finance_agent" / "data"
-    data_dir = Path(os.environ.get("FINANCE_AGENT_DATA_DIR", default))
+    default = Path.home() / ".config" / "plutus" / "data"
+    data_dir = Path(os.environ.get("PLUTUS_DATA_DIR", default))
     data_dir.mkdir(parents=True, exist_ok=True)
-    return data_dir / "finance_agent.db"
+    return data_dir / "plutus.db"
 
 
 def _hash(sql: str) -> str:

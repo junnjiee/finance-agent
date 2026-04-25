@@ -9,13 +9,13 @@ from plutus.constants import DEFAULT_DATA_DIR, GLOBAL_CONFIG
 from plutus.harness import hermes
 
 app = typer.Typer(
-    help="Install finance-agent skills into a harness.",
+    help="Install plutus skills into a harness.",
     invoke_without_command=True,
 )
 
 
 def _get_data_dir() -> str:
-    return os.environ.get("FINANCE_AGENT_DATA_DIR", DEFAULT_DATA_DIR)
+    return os.environ.get("PLUTUS_DATA_DIR", DEFAULT_DATA_DIR)
 
 
 def _load_config() -> dict:
@@ -47,7 +47,7 @@ def _run_saved():
 
 @app.command("hermes")
 def cmd_hermes():
-    """Install finance-agent skills into Hermes Agent."""
+    """Install plutus skills into Hermes Agent."""
     hermes.install(_get_data_dir())
 
     harnesses = list(set(_load_config().get("harnesses", [])) | {"hermes"})
@@ -58,7 +58,7 @@ def cmd_hermes():
 def cmd_setup(
     ctx: typer.Context, saved: bool = typer.Option(False, "--saved", hidden=True)
 ):
-    """Install finance-agent skills. Run without arguments for interactive setup."""
+    """Install plutus skills. Run without arguments for interactive setup."""
     if ctx.invoked_subcommand is not None:
         return
 
@@ -66,7 +66,7 @@ def cmd_setup(
         _run_saved()
         return
 
-    print("finance-agent setup")
+    print("plutus setup")
     print("=" * 40)
 
     # For now, only hermes is supported

@@ -9,7 +9,7 @@ Use this skill to show your user's net worth based on the data collected
 
 ## Load the local finance context
 
-Resolve the data directory first: use `FINANCE_AGENT_DATA_DIR` if set, otherwise `~/.config/finance_agent/data/`.
+Resolve the data directory first: use `PLUTUS_DATA_DIR` if set, otherwise `~/.config/plutus/data/`.
 
 - If the data directory does not exist, direct the user to onboard using the `plutus-onboard` skill.
 - Read `profile.json` from the data directory first.

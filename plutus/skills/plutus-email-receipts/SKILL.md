@@ -12,7 +12,7 @@ Use this skill to automatically discover and import expenses from email receipts
 Before doing anything else:
 
 1. Confirm the workspace is onboarded (data directory exists and `profile.json` is present)
-2. Resolve the data directory: use `FINANCE_AGENT_DATA_DIR` if set, otherwise `~/.config/finance_agent/data/`
+2. Resolve the data directory: use `PLUTUS_DATA_DIR` if set, otherwise `~/.config/plutus/data/`
 3. Read `profile.json` to load `base_currency`, `currency_symbol`, and any receipt-related preferences
 4. Have a email reading skill that you can invoke. This skill will not work without the email reading skill
 
