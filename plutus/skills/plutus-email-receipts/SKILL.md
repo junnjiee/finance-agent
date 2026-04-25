@@ -1,5 +1,5 @@
 ---
-name: fa-email-receipts
+name: plutus-email-receipts
 description: Scan inbox for purchase receipts, parse expense details, and log them after user review. Use when the user wants to import expenses from email, check their inbox for purchases or receipts, or says things like "check my email for expenses", "find receipts from my email", "scan my inbox for expenses and receipts", "what did I buy recently", "import my expenses from email", "log email purchases".
 ---
 
@@ -53,7 +53,7 @@ If the email skill is not available or not configured, stop here and tell the us
 **IMPORTANT: You MUST run this command now before proceeding. Do not skip it.**
 
 ```
-mtool expenses list --limit 100
+plutus expenses list --limit 100
 ```
 
 From the returned expenses, build two lookup structures:
@@ -76,12 +76,12 @@ If a fuzzy match is found:
 - Do **not** create a new expense
 - Instead, patch the `email_id` onto the existing expense:
   ```
-  mtool expenses update <id> --email-id <email_id>
+  plutus expenses update <id> --email-id <email_id>
   ```
-  Run `mtool expenses update --help` first if you are unsure of the flag name.
+  Run `plutus expenses update --help` first if you are unsure of the flag name.
 - Note this in the review table as: `↩ Linked to existing expense #<id>`
 
-If `mtool expenses update` does not support setting `email_id` directly, read the expense record, add the field, and write it back.
+If `plutus expenses update` does not support setting `email_id` directly, read the expense record, add the field, and write it back.
 
 ## Step 3 — Parse Receipts
 
@@ -97,7 +97,7 @@ For each remaining candidate email, extract:
 
 ### Category Inference
 
-Apply the same inference rules as `fa-expense-tracker`:
+Apply the same inference rules as `plutus-expense-tracker`:
 
 - Match merchant name patterns against prior entries
 - Normalize all categories to lowercase
@@ -149,10 +149,10 @@ If the user wants to adjust any row before importing (category, amount, currency
 For each confirmed expense, run:
 
 ```
-mtool expenses add --help
+plutus expenses add --help
 ```
 
-Then add the expense using the correct flags, passing `email_id` as a custom field if the CLI supports extra fields. If `mtool expenses add` does not support arbitrary extra fields, write the expense and immediately run `mtool expenses update` to patch in the `email_id` field.
+Then add the expense using the correct flags, passing `email_id` as a custom field if the CLI supports extra fields. If `plutus expenses add` does not support arbitrary extra fields, write the expense and immediately run `plutus expenses update` to patch in the `email_id` field.
 
 After all imports complete, show a short plain-text summary:
 

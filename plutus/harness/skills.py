@@ -6,7 +6,7 @@ from pathlib import Path
 
 def iter_skills() -> list[tuple[str, str]]:
     """Return sorted list of (skill_name, SKILL.md content) from bundled package data."""
-    root = files("mtool.skills")
+    root = files("plutus.skills")
     results = []
     for entry in root.iterdir():
         if entry.is_dir() and (entry / "SKILL.md").is_file():

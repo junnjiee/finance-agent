@@ -1,5 +1,5 @@
 ---
-name: fa-expense-tracker
+name: plutus-expense-tracker
 description: Log, edit, delete, and analyze individual expenses. Use when the user wants to add an expense, log a purchase, look at their expenses, view spending summaries, check category breakdowns, review spending trends, ask what they spent, ask how much they spent, ask about a specific category or merchant, or says things like "add an expense", "log a purchase", "what did I spend", "how much did I spend on X", "show my expenses", "show my spending", "what have I bought", "spending this month", "top categories", "where did my money go", "did I spend on X", "delete an expense", "edit an expense", "update an expense". Defaults to the current month (MTD).
 ---
 
@@ -15,7 +15,7 @@ Use this skill to manage and analyze individual expenses. It covers two responsi
 Resolve the data directory first: use `FINANCE_AGENT_DATA_DIR` if set, otherwise `~/.config/finance_agent/data/`.
 
 - Read `profile.json` to load `base_currency`, `currency_symbol`, and any expense-related preferences
-- The handling of expense data can be managed through `mtool`,
+- The handling of expense data can be managed through `plutus`,
 
 Relevant preferences to check in `profile.json` under `preferences`:
 
@@ -28,9 +28,9 @@ If `expense_display_currency` is not yet set and a multi-currency summary is req
 
 ## CLI Reference
 
-All expense operations go through `mtool expenses`. All commands return JSON.
+All expense operations go through `plutus expenses`. All commands return JSON.
 
-Before using any subcommand, run `mtool expenses --help` or `mtool expenses <subcommand> --help` to see current flags and argument order. Do not rely on memorized syntax — always confirm with `--help` first.
+Before using any subcommand, run `plutus expenses --help` or `plutus expenses <subcommand> --help` to see current flags and argument order. Do not rely on memorized syntax — always confirm with `--help` first.
 
 The available subcommands are: `add`, `list`, `update`, `delete`.
 
@@ -41,7 +41,7 @@ The available subcommands are: `add`, `list`, `update`, `delete`.
 Before writing, query recent expenses to understand what categories and merchants the user has used:
 
 ```
-mtool expenses list --limit 100
+plutus expenses list --limit 100
 ```
 
 Use this data to:
@@ -87,7 +87,7 @@ When the user pastes a list of expenses:
 
 ## Analysis and Reporting
 
-Run analysis with `mtool expenses list` using the appropriate date range and filters. Parse the returned JSON for calculations.
+Run analysis with `plutus expenses list` using the appropriate date range and filters. Parse the returned JSON for calculations.
 
 ### Monthly Summary (default view)
 
@@ -121,7 +121,7 @@ The goal is a stable, user-derived taxonomy — not a forced preset list.
 ## Currency Handling
 
 - Store expenses in their original currency (do not convert on write)
-- For summaries and totals, convert to `expense_display_currency` using `mtool market ticker` with Yahoo Finance FX pair symbols (e.g. `--ticker USDSGD=X`)
+- For summaries and totals, convert to `expense_display_currency` using `plutus market ticker` with Yahoo Finance FX pair symbols (e.g. `--ticker USDSGD=X`)
 - Show exchange rates used as a footnote in any converted summary
 - Cache exchange rates within the session; do not re-fetch unless the user asks
 

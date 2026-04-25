@@ -31,10 +31,10 @@ uv tool install git+https://github.com/junnjiee/finance-agent.git
 Install skills into your harness:
 
 ```bash
-mtool setup hermes
+plutus setup hermes
 ```
 
-Or run `mtool setup` to be guided through the process.
+Or run `plutus setup` to be guided through the process.
 
 By default, finance data is stored in `~/.config/finance_agent/data/`. To use a custom location, set the `FINANCE_AGENT_DATA_DIR` environment variable.
 
@@ -49,10 +49,10 @@ I want to start using finance agent for my personal finance
 ### Updating
 
 ```bash
-mtool update
+plutus update
 ```
 
-This reinstalls `mtool` from GitHub and refreshes skills in all configured harnesses.
+This reinstalls `plutus` from GitHub and refreshes skills in all configured harnesses.
 
 ## Contributing
 

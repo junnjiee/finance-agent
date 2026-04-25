@@ -1,5 +1,5 @@
 ---
-name: fa-liability-tracker
+name: plutus-liability-tracker
 description: Track recurring liabilities such as subscriptions, insurance, and loans. Use when the user wants to add, update, remove, summarize, or review upcoming recurring payments
 ---
 
@@ -16,7 +16,7 @@ Use this skill when the user wants to:
 
 Resolve the data directory first: use `FINANCE_AGENT_DATA_DIR` if set, otherwise `~/.config/finance_agent/data/`.
 
-- If the data directory does not exist, direct the user to onboard using the `fa-onboard` skill.
+- If the data directory does not exist, direct the user to onboard using the `plutus-onboard` skill.
 - Read `profile.json` from the data directory first.
 - Read `liabilities.json` from the data directory before making calculations or recommendations.
 - When the user reports a change, confirm the intended edit if it would overwrite or remove an existing item, then update `liabilities.json` in the data directory immediately.

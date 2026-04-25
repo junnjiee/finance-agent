@@ -1,5 +1,5 @@
 ---
-name: fa-analyze-cashflow
+name: plutus-analyze-cashflow
 description: Analyze monthly cashflow and show either savings rate or runway automatically. Use when the user asks about cashflow, monthly surplus/deficit, burn rate, savings rate, how long to reach a goal amount, how long their money will last, or other relevant questions.
 ---
 
@@ -17,7 +17,7 @@ The core rule is simple:
 
 Resolve the data directory first: use `FINANCE_AGENT_DATA_DIR` if set, otherwise `~/.config/finance_agent/data/`.
 
-- If the data directory does not exist, direct the user to onboard using the `fa-onboard` skill.
+- If the data directory does not exist, direct the user to onboard using the `plutus-onboard` skill.
 - Read `profile.json` from the data directory first.
 - Read all current data files from the data directory before making recommendations or calculations.
 
@@ -37,14 +37,14 @@ In general, outflow should be `actual expenses (or planned fallback) + recurring
 
 Before calculating outflow, check whether actual expense data exists:
 
-1. Query the expense database: `mtool expenses list --limit 1` to check if any records exist, then check the earliest and latest dates
+1. Query the expense database: `plutus expenses list --limit 1` to check if any records exist, then check the earliest and latest dates
 2. **Use actual expenses** if the database contains at least one complete prior calendar month of data (i.e. there is a month, before the current one, where the user recorded expenses)
 3. **If no sufficient actual data exists**, ask the user for an approximate total monthly spend figure to use as a placeholder; store it in `cashflow.json` under `estimated_monthly_expenses` (with `currency` and a `note` marking it as a user estimate). Label it clearly in output as *"based on user estimate"*.
 
 When using actual expenses:
 - Use the most recent complete calendar month as the representative monthly outflow
-- Run `mtool expenses list --from YYYY-MM-01 --to YYYY-MM-31` for that month
-- Convert all amounts to `base_currency` using `mtool market ticker` with Yahoo Finance FX pair symbols (e.g. `--ticker USDSGD=X`) before summing
+- Run `plutus expenses list --from YYYY-MM-01 --to YYYY-MM-31` for that month
+- Convert all amounts to `base_currency` using `plutus market ticker` with Yahoo Finance FX pair symbols (e.g. `--ticker USDSGD=X`) before summing
 - Label the outflow figure clearly: *"based on actual expenses (Month YYYY)"*
 
 Separate liabilities by frequency when calculating outflow. If user has specific preferences, override this rule:
@@ -69,7 +69,7 @@ Use this sign test to choose the output mode.
 
 ## Account Valuation
 
-For investment accounts with `holdings`, calculate balance automatically as `units × current price` using `mtool market ticker`.
+For investment accounts with `holdings`, calculate balance automatically as `units × current price` using `plutus market ticker`.
 
 For manual investment accounts with a flat `balance`, use the stored balance.
 

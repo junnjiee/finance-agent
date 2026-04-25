@@ -1,5 +1,5 @@
 ---
-name: fa-onboard
+name: plutus-onboard
 description: Collect the user's initial financial data and create the base JSON files in the data directory. Use on first interaction or when local finance files do not exist yet. Focus on baseline data collection and flexible core schemas
 ---
 

@@ -1,7 +1,13 @@
 import json
 from typing import Annotated, Optional
 import typer
-from mtool.core.expenses import add_expense, list_expenses, update_expense, delete_expense, get_expense_by_email_id
+from plutus.core.expenses import (
+    add_expense,
+    list_expenses,
+    update_expense,
+    delete_expense,
+    get_expense_by_email_id,
+)
 
 app = typer.Typer(help="Manage expenses in a local database.")
 

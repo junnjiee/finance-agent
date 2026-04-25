@@ -6,8 +6,8 @@ import os
 import re
 from pathlib import Path
 
-from mtool.constants import ADAPTER_NOTE, HERMES_META
-from mtool.harness.skills import iter_skills, split_frontmatter, write_skill
+from plutus.constants import HERMES_ADAPTER_NOTE, HERMES_META
+from plutus.harness.skills import iter_skills, split_frontmatter, write_skill
 
 
 def _extra_frontmatter(skill_name: str, data_dir: str) -> str:
@@ -21,7 +21,7 @@ def _extra_frontmatter(skill_name: str, data_dir: str) -> str:
         f"author: finance-agent\n"
         f"license: MIT\n"
         f"prerequisites:\n"
-        f"  commands: [mtool]\n"
+        f"  commands: [plutus]\n"
         f"metadata:\n"
         f"  hermes:\n"
         f"    tags: {tags}\n"
@@ -39,7 +39,7 @@ def _transform(content: str, skill_name: str, data_dir: str) -> str:
     frontmatter, body = split_frontmatter(content)
     extra = _extra_frontmatter(skill_name, data_dir).splitlines()
     new_fm = ["---"] + frontmatter + extra + ["---"]
-    new_body = ["", *ADAPTER_NOTE.splitlines(), ""] + body
+    new_body = ["", *HERMES_ADAPTER_NOTE.splitlines(), ""] + body
     return "\n".join(new_fm + new_body)
 
 

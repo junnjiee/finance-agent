@@ -3,7 +3,7 @@ from typing import Annotated
 
 import typer
 
-from mtool.core.market import get_ticker_info, get_ticker_history
+from plutus.core.market import get_ticker_info, get_ticker_history
 
 app = typer.Typer(help="Fetch market data from Yahoo Finance.")
 

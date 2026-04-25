@@ -1,45 +1,61 @@
-"""Shared constants for mtool."""
+"""Shared constants for plutus."""
 
 from __future__ import annotations
 
 from pathlib import Path
 
-GITHUB_REPO = "git+https://github.com/junnjiee/finance-agent.git"
-GLOBAL_CONFIG = Path.home() / ".config" / "finance_agent" / "mtool.json"
-DEFAULT_DATA_DIR = str(Path.home() / ".config" / "finance_agent" / "data")
+GITHUB_REPO = "git+https://github.com/junnjiee/plutus.git"
+GLOBAL_CONFIG = Path.home() / ".config" / "plutus" / "plutus.json"
+DEFAULT_DATA_DIR = str(Path.home() / ".config" / "plutus" / "data")
 
 HERMES_META: dict[str, dict] = {
-    "fa-onboard": {
+    "plutus-onboard": {
         "tags": ["finance", "personal-finance", "setup", "onboarding"],
         "related_skills": [
-            "fa-net-worth",
-            "fa-analyze-cashflow",
-            "fa-liability-tracker",
+            "plutus-net-worth",
+            "plutus-analyze-cashflow",
+            "plutus-liability-tracker",
         ],
     },
-    "fa-net-worth": {
+    "plutus-net-worth": {
         "tags": ["finance", "personal-finance", "net-worth", "portfolio"],
-        "related_skills": ["fa-onboard", "fa-analyze-cashflow", "fa-liability-tracker"],
+        "related_skills": [
+            "plutus-onboard",
+            "plutus-analyze-cashflow",
+            "plutus-liability-tracker",
+        ],
     },
-    "fa-analyze-cashflow": {
+    "plutus-analyze-cashflow": {
         "tags": ["finance", "personal-finance", "cashflow", "runway", "savings"],
-        "related_skills": ["fa-onboard", "fa-net-worth", "fa-liability-tracker"],
+        "related_skills": [
+            "plutus-onboard",
+            "plutus-net-worth",
+            "plutus-liability-tracker",
+        ],
     },
-    "fa-liability-tracker": {
+    "plutus-liability-tracker": {
         "tags": ["finance", "personal-finance", "liabilities", "subscriptions"],
-        "related_skills": ["fa-onboard", "fa-analyze-cashflow", "fa-net-worth"],
+        "related_skills": [
+            "plutus-onboard",
+            "plutus-analyze-cashflow",
+            "plutus-net-worth",
+        ],
     },
-    "fa-expense-tracker": {
+    "plutus-expense-tracker": {
         "tags": ["finance", "personal-finance", "expenses", "spending", "budget"],
-        "related_skills": ["fa-onboard", "fa-analyze-cashflow", "fa-liability-tracker"],
+        "related_skills": [
+            "plutus-onboard",
+            "plutus-analyze-cashflow",
+            "plutus-liability-tracker",
+        ],
     },
-    "fa-email-receipts": {
+    "plutus-email-receipts": {
         "tags": ["finance", "personal-finance", "expenses", "email", "receipts"],
-        "related_skills": ["fa-expense-tracker", "google-workspace", "himalaya"],
+        "related_skills": ["plutus-expense-tracker", "google-workspace", "himalaya"],
     },
 }
 
-ADAPTER_NOTE = """\
+HERMES_ADAPTER_NOTE = """\
 > **Hermes adapter note:** When instructions refer to "the data directory", use
 > the `finance_agent.data_dir` value in your config.yaml.
 >

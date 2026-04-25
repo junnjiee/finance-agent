@@ -5,8 +5,8 @@ import os
 
 import typer
 
-from mtool.constants import DEFAULT_DATA_DIR, GLOBAL_CONFIG
-from mtool.harness import hermes
+from plutus.constants import DEFAULT_DATA_DIR, GLOBAL_CONFIG
+from plutus.harness import hermes
 
 app = typer.Typer(
     help="Install finance-agent skills into a harness.",
@@ -32,10 +32,10 @@ def _save_config(harnesses: list[str]):
 
 
 def _run_saved():
-    """Re-run skill installation using saved config (called by mtool update)."""
+    """Re-run skill installation using saved config (called by plutus update)."""
     config = _load_config()
     if not config:
-        print("No saved config found. Run 'mtool setup' first.")
+        print("No saved config found. Run 'plutus setup' first.")
         raise typer.Exit(1)
 
     data_dir = _get_data_dir()

@@ -1,4 +1,4 @@
-"""CLI wrapper for mtool update command."""
+"""CLI wrapper for plutus update command."""
 
 from __future__ import annotations
 
@@ -7,7 +7,7 @@ import subprocess
 
 import typer
 
-from mtool.constants import GITHUB_REPO
+from plutus.constants import GITHUB_REPO
 
 
 def update():
@@ -17,18 +17,18 @@ def update():
         print("uv not found. Install uv first: https://docs.astral.sh/uv/")
         raise typer.Exit(1)
 
-    print("Updating mtool...")
+    print("Updating plutus...")
     result = subprocess.run(
         [uv, "tool", "install", "--force", GITHUB_REPO],
         capture_output=True,
         text=True,
     )
     if result.returncode != 0:
-        print(f"Failed to update mtool:\n{result.stderr}")
+        print(f"Failed to update plutus:\n{result.stderr}")
         raise typer.Exit(1)
 
     print("Refreshing skills...")
-    result = subprocess.run(["mtool", "setup", "--saved"])
+    result = subprocess.run(["plutus", "setup", "--saved"])
     if result.returncode != 0:
         print("Skill refresh failed.")
         raise typer.Exit(1)
