@@ -9,7 +9,7 @@ from plutus.constants import DEFAULT_DATA_DIR, GLOBAL_CONFIG
 from plutus.harness import hermes
 
 app = typer.Typer(
-    help="Install plutus skills into a harness.",
+    help="Install plutus skills into an agent harness.",
     invoke_without_command=True,
 )
 

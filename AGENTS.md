@@ -1,5 +1,16 @@
 # AGENTS
 
+# Project Guidelines
+
+## Typer CLI Conventions
+
+Each subcommand lives in its own module under `plutus/` and follows the same pattern:
+
+- **Multi-command modules** (e.g. `expenses.py`, `market.py`): define `app = typer.Typer(help=...)`, register commands with `@app.command("name")`, expose `app` for `main.py`.
+- **Single-command modules** (e.g. `serve.py`, `update.py`): define `app = typer.Typer(help=..., invoke_without_command=True)`, register the command with `@app.callback()`, expose `app` for `main.py`.
+- **`main.py`** imports each module and registers all uniformly via `app.add_typer(module.app, name="name")`. No `@app.command()` decorators in `main.py`.
+- Use `typer.echo()` (not `print()`) for all output. Pass `err=True` for error messages.
+
 # General Guidelines
 
 Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
