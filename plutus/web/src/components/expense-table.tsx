@@ -120,7 +120,7 @@ export function ExpenseTable({
                   <TableCell className="max-w-[200px] truncate">{e.name}</TableCell>
                   <TableCell>
                     {e.category ? (
-                      <Badge variant="secondary" className="font-[510]">
+                      <Badge variant="secondary" className="font-[510] rounded-full">
                         {e.category}
                       </Badge>
                     ) : (
