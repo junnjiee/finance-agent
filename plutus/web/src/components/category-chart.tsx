@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Bar,
   BarChart,
@@ -86,10 +87,25 @@ function buildChartConfig(
   return config;
 }
 
+function useIsMobile(breakpoint = 640) {
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth < breakpoint : false
+  );
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${breakpoint - 1}px)`);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    setIsMobile(mq.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, [breakpoint]);
+  return isMobile;
+}
+
 export function CategoryChart({ expenses, selectedCategories }: CategoryChartProps) {
   const allCategories = [...new Set(expenses.map(categoryName))];
   const { data, categories } = buildChartData(expenses, selectedCategories, allCategories);
   const chartConfig = buildChartConfig(categories, allCategories);
+  const isMobile = useIsMobile();
 
   if (data.length === 0) {
     return (
@@ -102,7 +118,12 @@ export function CategoryChart({ expenses, selectedCategories }: CategoryChartPro
   return (
     <ChartContainer config={chartConfig} className="h-[300px] w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} margin={{ top: 8, right: 8, bottom: 4, left: 0 }}>
+        <BarChart
+          data={data}
+          margin={{ top: 8, right: 8, bottom: 4, left: 0 }}
+          barSize={isMobile ? 8 : 16}
+          barCategoryGap={isMobile ? "10%" : "20%"}
+        >
           <CartesianGrid
             strokeDasharray="3 3"
             vertical={false}
@@ -113,6 +134,7 @@ export function CategoryChart({ expenses, selectedCategories }: CategoryChartPro
             tickLine={false}
             axisLine={false}
             tick={{ fill: "#62666D", fontSize: 12 }}
+            interval={isMobile ? 2 : 0}
             tickFormatter={(v: string) => String(parseInt(v, 10))}
           />
           <YAxis

@@ -1,4 +1,4 @@
-import { Plus, MoreVertical, Pencil, Trash2 } from "lucide-react";
+import { Plus, MoreVertical, Pencil, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -51,7 +51,7 @@ export function ExpenseTable({
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
         <Button onClick={onAdd} size="sm">
           <Plus className="h-4 w-4 mr-1" />
           Add Expense
@@ -60,29 +60,29 @@ export function ExpenseTable({
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Button
               variant="ghost"
-              size="sm"
+              size="icon-sm"
               disabled={page <= 1}
               onClick={() => onPageChange(page - 1)}
             >
-              Prev
+              <ChevronLeft className="h-4 w-4" />
             </Button>
             <span className="tabular-nums">
               {page} / {totalPages}
             </span>
             <Button
               variant="ghost"
-              size="sm"
+              size="icon-sm"
               disabled={page >= totalPages}
               onClick={() => onPageChange(page + 1)}
             >
-              Next
+              <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
         )}
       </div>
 
-      <div className="rounded-xl border border-border overflow-hidden">
-        <Table>
+      <div className="overflow-x-auto">
+        <Table className="min-w-[700px]">
           <TableHeader>
             <TableRow className="hover:bg-transparent">
               <TableHead className="text-[0.6875rem] font-[510] uppercase tracking-[0.06em]">
@@ -138,7 +138,7 @@ export function ExpenseTable({
                   </TableCell>
                   <TableCell>
                     <DropdownMenu>
-                      <DropdownMenuTrigger className="inline-flex items-center justify-center h-7 w-7 rounded-md hover:bg-secondary transition-colors">
+                      <DropdownMenuTrigger className="inline-flex items-center justify-center h-7 w-7 hover:bg-secondary transition-colors">
                         <MoreVertical className="h-3.5 w-3.5" />
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">

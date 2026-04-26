@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Sidebar } from "@/components/sidebar";
 import { MonthNavigator } from "@/components/month-navigator";
 import { CategoryChart, PALETTE } from "@/components/category-chart";
 import { CategoryFilter } from "@/components/category-filter";
@@ -34,7 +33,7 @@ export default function App() {
   const [editing, setEditing] = useState<Expense | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const pageSize = 15;
+  const pageSize = 10;
 
   const dateFrom = `${year}-${pad(month)}-01`;
   const lastDay = new Date(year, month, 0).getDate();
@@ -90,33 +89,45 @@ export default function App() {
   }
 
   const categories = [...new Set(expenses.map((e) => e.category ?? "Uncategorized"))];
-  const total = expenses.reduce((sum, e) => sum + e.amount, 0);
   const filteredTotal = expenses
     .filter((e) => selectedCategories.includes(e.category ?? "Uncategorized"))
     .reduce((sum, e) => sum + e.amount, 0);
+  const totalPages = Math.max(1, Math.ceil(expenses.length / pageSize));
+  const currentPage = Math.max(1, Math.min(page, totalPages));
 
   return (
-    <div className="flex min-h-screen">
-      <Sidebar />
-      <main className="ml-[260px] flex-1 p-12 max-w-[1100px]">
-        <div className="mb-8">
-          <h1 className="text-[1.75rem] font-[590] tracking-[-0.48px] text-foreground leading-[1.2]">
-            Dashboard
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Track and manage your expenses
-          </p>
+    <div className="min-h-screen flex justify-center">
+      <header className="fixed top-0 left-0 right-0 z-10 border-b border-border bg-background/80 backdrop-blur-sm">
+        <div className="flex items-center h-12 px-4 md:px-8 lg:px-12 max-w-[1100px] mx-auto w-full">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 bg-primary flex items-center justify-center text-xs font-[590] text-primary-foreground">
+              ₱
+            </div>
+            <span className="text-base font-[590] text-foreground tracking-[-0.02em]">Plutus</span>
+          </div>
         </div>
-
+      </header>
+      <main className="px-4 pt-20 pb-4 md:px-8 md:pb-8 lg:px-12 lg:pb-12 max-w-[1100px] w-full">
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
+          <div className="mb-2">
+            <h2 className="text-[1.25rem] font-[510] tracking-[-0.2px] text-foreground">
+              Expenses
+            </h2>
+            <p className="text-sm text-muted-foreground mt-0.5">
+              Monthly spending broken down by category.
+            </p>
+          </div>
+
+          <div className="mb-4 mt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+            <div className="flex justify-center md:justify-start">
               <MonthNavigator
                 year={year}
                 month={month}
                 onPrev={() => changeMonth(-1)}
                 onNext={() => changeMonth(1)}
               />
+            </div>
+            <div className="flex items-center justify-between md:justify-end md:gap-3">
               {categories.length > 1 && (
                 <CategoryFilter
                   categories={categories}
@@ -132,16 +143,16 @@ export default function App() {
                   onClear={() => setSelectedCategories([])}
                 />
               )}
-            </div>
-            <span className="text-sm text-muted-foreground">
-              Total:{" "}
-              <span className="font-mono tabular-nums font-medium text-foreground">
-                ${filteredTotal.toFixed(2)}
+              <span className="text-sm text-muted-foreground">
+                Total:{" "}
+                <span className="font-mono tabular-nums font-medium text-foreground">
+                  ${filteredTotal.toFixed(2)}
+                </span>
               </span>
-            </span>
+            </div>
           </div>
 
-          <div className="bg-card border border-border rounded-xl p-5">
+          <div className="border border-border p-3 md:p-5">
             <CategoryChart expenses={expenses} selectedCategories={selectedCategories} />
             {categories.length > 0 && (
               <div className="flex flex-wrap gap-4 mt-4 pt-4 border-t border-border">
@@ -168,19 +179,17 @@ export default function App() {
         </div>
 
         <div className="mb-6">
-          <div className="flex items-center justify-between mb-2">
-            <h2 className="text-[1.25rem] font-[510] tracking-[-0.2px] text-foreground">
-              Expenses
-            </h2>
-            <span className="text-sm text-muted-foreground">
-              Total: <span className="font-mono tabular-nums font-medium text-foreground">${total.toFixed(2)}</span>
-            </span>
-          </div>
+          <h2 className="text-[1.25rem] font-[510] tracking-[-0.2px] text-foreground">
+            History
+          </h2>
+          <p className="text-sm text-muted-foreground mt-0.5">
+            Your expense logs.
+          </p>
         </div>
 
         <ExpenseTable
           expenses={expenses}
-          page={page}
+          page={currentPage}
           pageSize={pageSize}
           onPageChange={setPage}
           onAdd={openAdd}

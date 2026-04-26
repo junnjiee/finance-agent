@@ -27,7 +27,7 @@ export function CategoryFilter({
     <Popover>
       <PopoverTrigger
         render={
-          <Button variant="outline" size="sm" className="h-8 gap-1.5">
+           <Button variant="outline" size="sm" className="h-8 gap-1.5 bg-transparent hover:bg-transparent">
             <ChevronsUpDown className="h-3.5 w-3.5" />
             <span className="text-sm">
               {allSelected

@@ -15,7 +15,7 @@ const MONTHS = [
 
 export function MonthNavigator({ year, month, onPrev, onNext }: MonthNavigatorProps) {
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-1 border border-border px-1 py-0.5">
       <Button variant="ghost" size="icon" onClick={onPrev} className="h-8 w-8">
         <ChevronLeft className="h-4 w-4" />
       </Button>
